@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorShop_Project", "MotorShop_Project\MotorShop_Project.csproj", "{0E7AC016-21BE-4D90-8826-6D8EDEFFF279}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorShop_Project.Model", "MotorShop_Project.Model\MotorShop_Project.Model.csproj", "{192AEE8C-E830-439E-A630-F914AE23C0AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorShop_Project.Data", "MotorShop_Project.Data\MotorShop_Project.Data.csproj", "{F6ADFAC4-47FF-400E-8014-452C1608285A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorShop_Project.Logic", "MotorShop_Project.Logic\MotorShop_Project.Logic.csproj", "{457C19E5-7407-4BF0-8221-2580DA2E5A6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorShop_Project.Repository", "MotorShop_Project.Repository\MotorShop_Project.Repository.csproj", "{B359528F-A92A-4427-ADF4-1829773B5ACB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		NugetParancs.txt = NugetParancs.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E7AC016-21BE-4D90-8826-6D8EDEFFF279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7AC016-21BE-4D90-8826-6D8EDEFFF279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7AC016-21BE-4D90-8826-6D8EDEFFF279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7AC016-21BE-4D90-8826-6D8EDEFFF279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{192AEE8C-E830-439E-A630-F914AE23C0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{192AEE8C-E830-439E-A630-F914AE23C0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{192AEE8C-E830-439E-A630-F914AE23C0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{192AEE8C-E830-439E-A630-F914AE23C0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6ADFAC4-47FF-400E-8014-452C1608285A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6ADFAC4-47FF-400E-8014-452C1608285A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6ADFAC4-47FF-400E-8014-452C1608285A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6ADFAC4-47FF-400E-8014-452C1608285A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{457C19E5-7407-4BF0-8221-2580DA2E5A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{457C19E5-7407-4BF0-8221-2580DA2E5A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{457C19E5-7407-4BF0-8221-2580DA2E5A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{457C19E5-7407-4BF0-8221-2580DA2E5A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B359528F-A92A-4427-ADF4-1829773B5ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B359528F-A92A-4427-ADF4-1829773B5ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B359528F-A92A-4427-ADF4-1829773B5ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B359528F-A92A-4427-ADF4-1829773B5ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7C33284-8775-4830-BA36-9757C95CFB3F}
+	EndGlobalSection
+EndGlobal
