@@ -17,7 +17,6 @@ namespace MotorShop_Project.Model.Classes
 
         public DateTime OrderTime { get; set; }
 
-        // Kapcsolat: Egy rendeléshez több extra tartozhat (many-to-many)
         public ICollection<Extra> Extras { get; set; } = new List<Extra>();
     }
 
