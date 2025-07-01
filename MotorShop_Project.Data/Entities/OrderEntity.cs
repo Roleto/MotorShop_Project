@@ -21,6 +21,8 @@ namespace MotorShop_Project.Data.Entities
 
         public DateTime OrderTime { get; set; } = DateTime.UtcNow;
 
+        public bool HasExtras{ get; set; } 
+
         public ICollection<ExtrasEntity> Extras { get; set; }
     }
 }

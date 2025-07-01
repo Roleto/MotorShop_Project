@@ -24,46 +24,39 @@ namespace MotorShop_Project.Data.DBContext
         {
             base.OnModelCreating(modelBuilder);
 
-            // === BRAND → MODEL (Cascade Delete)
             modelBuilder.Entity<ModelEntity>()
                 .HasOne(m => m.Brand)
                 .WithMany(b => b.Models)
                 .HasForeignKey(m => m.BrandId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // === MODEL → EXTRAS (Cascade Delete)
             modelBuilder.Entity<ExtrasEntity>()
                 .HasOne(e => e.Model)
                 .WithMany(m => m.Extras)
                 .HasForeignKey(e => e.ModelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // === ORDER → BRAND (Restrict)
             modelBuilder.Entity<OrderEntity>()
                 .HasOne(o => o.Brand)
                 .WithMany()
                 .HasForeignKey(o => o.BrandId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // === ORDER → MODEL (Restrict)
             modelBuilder.Entity<OrderEntity>()
                 .HasOne(o => o.Model)
                 .WithMany()
                 .HasForeignKey(o => o.ModelId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // === ORDER → EXTRAS (Many-to-Many, explicit table)
             modelBuilder.Entity<OrderEntity>()
                 .HasMany(o => o.Extras)
                 .WithMany()
                 .UsingEntity(j => j.ToTable("OrderExtras"));
 
-            // === DEFAULT VALUE (OrderTime)
             modelBuilder.Entity<OrderEntity>()
                 .Property(o => o.OrderTime)
                 .HasDefaultValueSql("GETUTCDATE()");
 
-            // === INDEXEK
             modelBuilder.Entity<BrandEntity>()
                 .HasIndex(b => b.Name);
 
