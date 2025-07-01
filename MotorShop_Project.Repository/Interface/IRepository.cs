@@ -13,5 +13,8 @@ namespace MotorShop_Project.Repository.Interface
         void Update(T item);
         void Delete(T item);
         IEnumerable<T> ReadAll();
+
+        //T ReadNoTracking(int id);
+        //IEnumerable<T> ReadAllNoTracking();
     }
 }

@@ -59,5 +59,10 @@ namespace MotorShop_Project.Repository.Classes
             return context.Set<BrandEntity>();
         }
 
+        // Nem kell ehez a projecthez csak hogy ne feljds el hogy van ilyen is
+        //public IEnumerable<BrandEntity> ReadAllNoTracking()
+        //{
+        //    return context.Set<BrandEntity>().AsNoTracking();
+        //}
     }
 }
