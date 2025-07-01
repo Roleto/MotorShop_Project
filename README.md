@@ -4,9 +4,13 @@ This project was created as part of a university semester assignment. Its goal w
 
 Main Features
 CRUD operations: The application supports the basic Create, Read, Update, and Delete functions.
+
 Entity Framework: Data access and management are handled through Entity Framework, using a relational database.
+
 Layered architecture: The codebase is divided into multiple layers (data access, business logic, presentation), as required by the course.
+
 ASP.NET interface: The project started as a simple console application, and in the following semester, a basic ASP.NET web interface was added.
+
 Non-CRUD features: In addition to standard CRUD, the project includes extra logic such as search, filtering, and basic statistics.
 
 Personal Note
