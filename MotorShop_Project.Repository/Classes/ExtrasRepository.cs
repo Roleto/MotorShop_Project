@@ -9,55 +9,56 @@ using System.Threading.Tasks;
 
 namespace MotorShop_Project.Repository.Classes
 {
-    class ModelRepository : IRepository<ModelEntity>
+    public class ExtrasRepository : IRepository<ExtrasEntity>
     {
         private MotorShopDbContext context;
 
-        public ModelRepository(MotorShopDbContext context)
+        public ExtrasRepository(MotorShopDbContext context)
         {
             this.context = context;
         }
 
-        public void Create(ModelEntity item)
+        public void Create(ExtrasEntity item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
 
-            context.Models.Add(item);
+            context.Extras.Add(item);
             context.SaveChanges();
         }
-        public ModelEntity Read(int id)
+
+        public ExtrasEntity Read(int id)
         {
             var readItem = ReadAll().FirstOrDefault(x => x.Id == id);
 
             if (readItem == null)
-                throw new KeyNotFoundException($"No Model found with Id {id}");
+                throw new KeyNotFoundException($"No Extras found with Id {id}");
 
             return readItem;
         }
-        public void Update(ModelEntity item)
+
+        public void Update(ExtrasEntity item)
         {
             var oldItem = Read(item.Id);
 
-            oldItem.BrandId = item.BrandId;
+            oldItem.ModelId = item.ModelId;
             oldItem.Name = item.Name;
             oldItem.Type = item.Type;
             oldItem.Price = item.Price;
+            oldItem.Description = item.Description;
 
             context.SaveChanges();
         }
 
-        public void Delete(ModelEntity item)
+        public void Delete(ExtrasEntity item)
         {
-            context.Models.Remove(item);
+            context.Extras.Remove(item);
             context.SaveChanges();
         }
 
-
-        public IEnumerable<ModelEntity> ReadAll()
+        public IEnumerable<ExtrasEntity> ReadAll()
         {
-            return context.Set<ModelEntity>();
+            return context.Set<ExtrasEntity>();
         }
-
     }
 }
