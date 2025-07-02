@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MotorShop_Project.Repository.Classes
 {
-    class ModelRepository : IRepository<ModelEntity>
+    public class ModelRepository : IRepository<ModelEntity>
     {
         private MotorShopDbContext context;
 
