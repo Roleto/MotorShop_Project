@@ -13,7 +13,7 @@ namespace MotorShop_Project.Model.Classes
         public string? Alt { get; set; }
         public string? Img { get; set; } 
         
-        public ICollection<Model> Models { get; set; } = new List<Model>();
+        public ICollection<BrandModel> Models { get; set; } = new List<BrandModel>();
     }
 
 }

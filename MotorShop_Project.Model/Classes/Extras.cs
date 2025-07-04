@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MotorShop_Project.Model.Classes
 {
-    public class Extra
+    public class Extras
     {
         public int Id { get; set; }
         public int ModelId { get; set; }
-        public Model Model { get; set; } = null!;
+        public BrandModel Model { get; set; } = null!;
 
         public string Name { get; set; } = null!;
         public string? Type { get; set; }

@@ -13,7 +13,7 @@ namespace MotorShop_Project.Model.Classes
         public Brand Brand { get; set; } = null!;
 
         public int ModelId { get; set; }
-        public Model Model { get; set; } = null!;
+        public BrandModel Model { get; set; } = null!;
 
         public DateTime OrderTime { get; set; }
 

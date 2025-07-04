@@ -24,7 +24,7 @@ namespace MotorShop_Project.Repository.Classes
                 throw new ArgumentNullException(nameof(item));
 
             context.Orders.Add(item);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
 
         public OrderEntity Read(int id)
@@ -39,21 +39,24 @@ namespace MotorShop_Project.Repository.Classes
 
         public void Update(OrderEntity item)
         {
-            var oldItem = Read(item.Id);
+            //minden féle képpen tszteld le hogy müködik a deletet is!!!!!!!!!
+            context.Orders.Update(item);
 
-            oldItem.BrandId = item.BrandId;
-            oldItem.ModelId = item.ModelId;
-            oldItem.OrderTime = item.OrderTime;
-            oldItem.HasExtras = item.HasExtras;
-            oldItem.Extras = item.Extras;
+            //var oldItem = Read(item.Id);
 
-            context.SaveChanges();
+            //oldItem.BrandId = item.BrandId;
+            //oldItem.ModelId = item.ModelId;
+            //oldItem.OrderTime = item.OrderTime;
+            //oldItem.HasExtras = item.HasExtras;
+            //oldItem.Extras = item.Extras;
+
+            //context.SaveChanges();
         }
 
         public void Delete(OrderEntity item)
         {
             context.Orders.Remove(item);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
 
         public IEnumerable<OrderEntity> ReadAll()

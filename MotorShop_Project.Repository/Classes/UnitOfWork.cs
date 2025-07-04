@@ -1,4 +1,5 @@
 ﻿using MotorShop_Project.Data.DBContext;
+using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,28 +13,22 @@ namespace MotorShop_Project.Repository.Classes
     {
         private readonly MotorShopDbContext context;
 
-        public UnitOfWork(MotorShopDbContext context,
-            IRepository<BrandRepository> brands,
-            IRepository<ModelRepository> models,
-            IRepository<ExtrasRepository> extras,
-            IRepository<OrderRepository> orders)
+        public UnitOfWork(MotorShopDbContext context)
         {
             this.context = context;
-            Brands = brands;
-            Models = models;
-            Extras = extras;
-            Orders = orders;
+            Brands = new BrandRepository(context);
+            Models = new ModelRepository(context);
+            Extras = new ExtrasRepository(context);
+            Orders = new OrderRepository(context);
         }
 
-        public IRepository<BrandRepository> Brands { get; }
+        public IRepository<BrandEntity> Brands  { get; }
 
-        public IRepository<ModelRepository> Models { get; }
+        public IRepository<ModelEntity> Models { get; }
 
-        public IRepository<ExtrasRepository> Extras { get; }
+        public IRepository<ExtrasEntity> Extras { get; }
 
-        public IRepository<OrderRepository> Orders { get; }
-
-
+        public IRepository<OrderEntity> Orders { get; }
 
         public void Complete()
         {

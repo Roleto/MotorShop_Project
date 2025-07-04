@@ -1,4 +1,5 @@
-﻿using MotorShop_Project.Repository.Classes;
+﻿using MotorShop_Project.Data.Entities;
+using MotorShop_Project.Repository.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace MotorShop_Project.Repository.Interface
 {
     public interface IUnitOfWork
     {
-        IRepository<BrandRepository> Brands { get; }
-        IRepository<ModelRepository> Models { get; }
-        IRepository<ExtrasRepository> Extras { get; }
-        IRepository<OrderRepository> Orders { get; }
+        IRepository<BrandEntity> Brands { get; }
+        IRepository<ModelEntity> Models { get; }
+        IRepository<ExtrasEntity> Extras { get; }
+        IRepository<OrderEntity> Orders { get; }
 
         void Complete();
     }

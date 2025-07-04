@@ -25,7 +25,7 @@ namespace MotorShop_Project.Repository.Classes
                 throw new ArgumentNullException(nameof(item));
 
             context.Brands.Add(item);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
         public BrandEntity Read(int id)
         {
@@ -38,20 +38,23 @@ namespace MotorShop_Project.Repository.Classes
         }
         public void Update(BrandEntity item)
         {
-                var oldItem = Read(item.Id);
+            //minden féle képpen tszteld le hogy müködik a deletet is!!!!!!!!!
+            context.Brands.Update(item);
 
-                oldItem.Name = item.Name;
-                oldItem.Models = item.Models;
-                oldItem.Alt = item.Alt;
-                oldItem.ImgUrl = item.ImgUrl;
+            //var oldItem = Read(item.Id);
 
-                context.SaveChanges();
+            //    oldItem.Name = item.Name;
+            //    oldItem.Models = item.Models;
+            //    oldItem.Alt = item.Alt;
+            //    oldItem.ImgUrl = item.ImgUrl;
+
+                //context.SaveChanges();
         }
 
         public void Delete(BrandEntity item)
         {
             context.Brands.Remove(item);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
         
         public IEnumerable<BrandEntity> ReadAll()

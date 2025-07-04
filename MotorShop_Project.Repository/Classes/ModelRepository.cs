@@ -24,7 +24,7 @@ namespace MotorShop_Project.Repository.Classes
                 throw new ArgumentNullException(nameof(item));
 
             context.Models.Add(item);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
         public ModelEntity Read(int id)
         {
@@ -37,20 +37,23 @@ namespace MotorShop_Project.Repository.Classes
         }
         public void Update(ModelEntity item)
         {
-            var oldItem = Read(item.Id);
+            //minden féle képpen tszteld le hogy müködik a deletet is!!!!!!!!!
+            context.Models.Update(item);
 
-            oldItem.BrandId = item.BrandId;
-            oldItem.Name = item.Name;
-            oldItem.Type = item.Type;
-            oldItem.Price = item.Price;
+            //var oldItem = Read(item.Id);
 
-            context.SaveChanges();
+            //oldItem.BrandId = item.BrandId;
+            //oldItem.Name = item.Name;
+            //oldItem.Type = item.Type;
+            //oldItem.Price = item.Price;
+
+            //context.SaveChanges();
         }
 
         public void Delete(ModelEntity item)
         {
             context.Models.Remove(item);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
 
 
