@@ -1,5 +1,8 @@
-﻿using MotorShop_Project.Logic.Interfaces;
+﻿using AutoMapper;
+using MotorShop_Project.Data.Entities;
+using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
+using MotorShop_Project.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +13,42 @@ namespace MotorShop_Project.Logic.Classes
 {
     public class ModelLogic : IModelLogic
     {
-        public void Create(BrandModel item)
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
+
+        public ModelLogic(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            throw new NotImplementedException();
+            this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
+        public void Create(BrandModel item)
+        {
+            var entity = mapper.Map<ModelEntity>(item);
+            unitOfWork.Models.Create(entity);
+            unitOfWork.Complete();
+        }
+        public BrandModel Read(int id)
+        {
+            var entity = unitOfWork.Brands.Read(id);
+            return mapper.Map<BrandModel>(entity);
+        }
+
+        public void Update(BrandModel item)
+        {
+            var entity = mapper.Map<ModelEntity>(item);
+            unitOfWork.Models.Update(entity);
+            unitOfWork.Complete();
+        }
         public void Delete(BrandModel item)
         {
-            throw new NotImplementedException();
+            var entity = mapper.Map<ModelEntity>(item);
+            unitOfWork.Models.Delete(entity);
+            unitOfWork.Complete();
+        }
+        public IEnumerable<BrandModel> ReadAll()
+        {
+            return mapper.Map<IEnumerable<BrandModel>>(unitOfWork.Models.ReadAll());
         }
 
         public void nonCrud1()
@@ -33,21 +64,6 @@ namespace MotorShop_Project.Logic.Classes
         public void nonCrud3()
         {
             throw new NotImplementedException();
-        }
-
-        public BrandModel Read(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<BrandModel> ReadAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(BrandModel item)
-        {
-            throw new NotImplementedException();
-        }
+        }        
     }
 }

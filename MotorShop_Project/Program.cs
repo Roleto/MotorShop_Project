@@ -15,11 +15,6 @@ namespace MotorShop_Project
     {
         static void Main(string[] args)
         {
-            //var configuration = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<IBrandLogic, BrandLogic>();
-            //},loggerFactory);
-
             var host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices((context, services) =>
                 {
@@ -40,7 +35,6 @@ namespace MotorShop_Project
                 })
                 .Build();
 
-            // Scoped példa:
             using var scope = host.Services.CreateScope();
             var logic = scope.ServiceProvider.GetRequiredService<IBrandLogic>();
         }
@@ -52,10 +46,14 @@ namespace MotorShop_Project
             CreateMap<Brand, BrandEntity>();
             CreateMap<BrandEntity, Brand>();
 
-            //CreateMap<Model, ModelEntity>();
-            //CreateMap<ModelEntity, Model>();
+            CreateMap<BrandModel, ModelEntity>();
+            CreateMap<ModelEntity, BrandModel>();
 
-            // stb. az összes entitás és domain modell között, amiket használsz
+            CreateMap<Order, OrderEntity>();
+            CreateMap<OrderEntity, Order>();
+
+            CreateMap<Extras, ExtrasEntity>();
+            CreateMap<ExtrasEntity, Extras>();
         }
     }
 
