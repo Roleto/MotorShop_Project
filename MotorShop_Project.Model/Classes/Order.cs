@@ -17,7 +17,14 @@ namespace MotorShop_Project.Model.Classes
 
         public DateTime OrderTime { get; set; }
 
-        public ICollection<Extra> Extras { get; set; } = new List<Extra>();
+        public bool HasExtras { get; set; }
+
+        public ICollection<Extras> Extras { get; set; } = new List<Extras>();
+
+        public override string ToString()
+        {
+            return $"Order: Id={Id}, BrandId={BrandId}, ModelId={ModelId}, OrderTime={OrderTime}, HasExtras={HasExtras}, Extras={Extras}";
+        }
     }
 
 }

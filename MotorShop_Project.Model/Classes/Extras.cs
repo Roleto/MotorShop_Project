@@ -18,6 +18,11 @@ namespace MotorShop_Project.Model.Classes
         public string? Description { get; set; }
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
+
+        public override string ToString()
+        {
+            return $"Extras: Id={Id}, ModelId={ModelId}, Name={Name}, Type={Type}, Price={Price:C}, Description={Description}";
+        }
     }
 
 }

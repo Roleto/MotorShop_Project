@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -67,14 +68,14 @@ namespace MotorShop_Project.Data.DBContext
                 .HasIndex(e => e.Type);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-#if DEBUG
-            optionsBuilder
-                .EnableSensitiveDataLogging()
-                .LogTo(Console.WriteLine);
-#endif
-        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {        
+//#if DEBUG
+//            optionsBuilder
+//                .EnableSensitiveDataLogging()
+//                .LogTo(Console.WriteLine);
+//#endif
+//        }
     }
 
 }

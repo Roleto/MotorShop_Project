@@ -17,6 +17,11 @@ namespace MotorShop_Project.Model.Classes
         public decimal Price { get; set; }
 
         public ICollection<Extras> Extras { get; set; } = new List<Extras>();
+
+        public override string ToString()
+        {
+            return $"Model: Id={Id}, BrandId={BrandId}, Name={Name}, Type={Type}, Price={Price:C}";
+        }
     }
 
 }

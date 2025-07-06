@@ -12,7 +12,9 @@ namespace MotorShop_Project.Data.DBContext
         public MotorShopDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<MotorShopDbContext>();
+            //optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MotorShopDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MotorShopDb;Trusted_Connection=True;");
+
 
             return new MotorShopDbContext(optionsBuilder.Options);
         }
