@@ -13,13 +13,13 @@ using MotorShop_Project.Model.Classes;
 
 namespace Motorshop_Project.MVC.Controllers
 {
-    public class BrandEntitiesController : Controller
+    public class BrandController : Controller
     {
         private readonly IBrandLogic _logic;
         private readonly IMapper mapper;
 
 
-        public BrandEntitiesController(IBrandLogic logic, IMapper mapper)
+        public BrandController(IBrandLogic logic, IMapper mapper)
         {
             _logic = logic;
             this.mapper = mapper;
@@ -119,7 +119,7 @@ namespace Motorshop_Project.MVC.Controllers
             return View(brandEntity);
         }
 
-        // GET: BrandEntities/Delete/5
+        // GET: Brand/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,7 +136,7 @@ namespace Motorshop_Project.MVC.Controllers
             return View(brandEntity);
         }
 
-        // POST: BrandEntities/Delete/5
+        // POST: Brand/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Brand brandEntity)

@@ -44,78 +44,20 @@ namespace MotorShop_Project
                 .Build();
 
             using var scope = host.Services.CreateScope();
-            var logic = scope.ServiceProvider.GetRequiredService<IBrandLogic>();
 
-            //var item1 = new Brand() { Alt = "proba1", ImgUrl = "képUrl1", Name = "teszt1" };
-            //var item2 = new Brand() { Alt = "proba2", ImgUrl = "képUrl2", Name = "teszt2" };
-            //logic.Create(item1);
-            //logic.Create(item2);
-            //var items = logic.ReadAll();
-            //foreach (var item in items)
-            //{
-            //    Console.WriteLine(item.ToString());
-            //}
             Menu.StartMenu(scope);
         }
-
-        //static void Menu(IServiceScope scope)
-        //{
-        //    bool running = true;
-
-        //    while (running)
-        //    {
-        //        var mainSelection = AnsiConsole.Prompt(
-        //            new SelectionPrompt<string>()
-        //                .Title("[yellow]Főmenü - Válassz egy opciót:[/]")
-        //                .AddChoices(new[]
-        //                {
-        //                "Brand", "Model", "Extras", "Order", "Instructions", "Exit"
-        //                }));
-
-        //        switch (mainSelection)
-        //        {
-        //            case "Brand":
-        //                HandleEntityMenu<Brand>("Brand", scope.ServiceProvider.GetRequiredService<IBrandLogic>());
-        //                break;
-        //            case "Model":
-        //                HandleEntityMenu<BrandModel>("Model", scope.ServiceProvider.GetRequiredService<IModelLogic>());
-        //                break;
-        //            case "Extras":
-        //                HandleEntityMenu<Extras>("Extras", scope.ServiceProvider.GetRequiredService<IExtrasLogic>());
-        //                break;
-        //            case "Order":
-        //                HandleEntityMenu<Order>("Order", scope.ServiceProvider.GetRequiredService<IOrderLogic>());
-        //                break;
-        //            case "Instructions":
-        //                ShowInstructions();
-        //                break;
-        //            case "Exit":
-        //                running = false;
-        //                break;
-        //        }
-        //    }
-
-        //    AnsiConsole.MarkupLine("[green]Kilépés...[/]");
-        //}
-
-
-
-
         public class MappingProfile : AutoMapper.Profile
         {
             public MappingProfile()
             {
-                CreateMap<Brand, BrandEntity>();
-                CreateMap<BrandEntity, Brand>();
+                CreateMap<Brand, BrandEntity>().ReverseMap();
 
-                CreateMap<BrandModel, ModelEntity>();
-                CreateMap<ModelEntity, BrandModel>();
+                CreateMap<BrandModel, ModelEntity>().ReverseMap();
 
-                CreateMap<Order, OrderEntity>();
-                CreateMap<OrderEntity, Order>();
+                CreateMap<Order, OrderEntity>().ReverseMap();
 
-                CreateMap<Extras, ExtrasEntity>();
-                CreateMap<ExtrasEntity, Extras>();
+                CreateMap<Extras, ExtrasEntity>().ReverseMap();
             }
         }
 

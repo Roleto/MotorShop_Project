@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MotorShop_Project.Data\MotorShop_Project.Data.csproj" />
     <ProjectReference Include="..\MotorShop_Project.Logic\MotorShop_Project.Logic.csproj" />
+    <ProjectReference Include="..\MotorShop_Project.Model\MotorShop_Project.Model.csproj" />
   </ItemGroup>
 
 </Project>
