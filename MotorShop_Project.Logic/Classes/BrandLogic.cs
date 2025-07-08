@@ -34,6 +34,12 @@ namespace MotorShop_Project.Logic.Classes
             await unitOfWork.Brands.CreateAsync(entity);
             await unitOfWork.CompleteAsync();
         }
+
+        public async Task CreateAsync(BrandEntity item)
+        {
+            await unitOfWork.Brands.CreateAsync(item);
+            await unitOfWork.CompleteAsync();
+        }
         public Brand Read(int id)
         {
             var entity = unitOfWork.Brands.Read(id);
