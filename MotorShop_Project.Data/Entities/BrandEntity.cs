@@ -19,9 +19,9 @@ namespace MotorShop_Project.Data.Entities
         public string Name { get; set; }
 
         [MaxLength(255)]
-        public string Alt { get; set; }
+        public string? Alt { get; set; }
 
-        public string ImgUrl { get; set; }
+        public string? ImgUrl { get; set; }
 
         public ICollection<ModelEntity> Models { get; set; }
     }

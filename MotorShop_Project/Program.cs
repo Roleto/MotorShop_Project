@@ -12,6 +12,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using Spectre.Console;
+using static System.Formats.Asn1.AsnWriter;
+using MotorShop_Project.Classes;
 
 namespace MotorShop_Project
 {
@@ -25,7 +27,6 @@ namespace MotorShop_Project
                     // DbContext
                     services.AddDbContext<MotorShopDbContext>(options =>
                      options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MotorShopDb;Trusted_Connection=True;"));
-                    //options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MotorShopDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"));
 
 
                     // Unit of Work
@@ -54,94 +55,69 @@ namespace MotorShop_Project
             //{
             //    Console.WriteLine(item.ToString());
             //}
-            Menu();
+            Menu.StartMenu(scope);
         }
 
-        static void Menu()
-        {
-            bool running = true;
+        //static void Menu(IServiceScope scope)
+        //{
+        //    bool running = true;
 
-            while (running)
+        //    while (running)
+        //    {
+        //        var mainSelection = AnsiConsole.Prompt(
+        //            new SelectionPrompt<string>()
+        //                .Title("[yellow]Főmenü - Válassz egy opciót:[/]")
+        //                .AddChoices(new[]
+        //                {
+        //                "Brand", "Model", "Extras", "Order", "Instructions", "Exit"
+        //                }));
+
+        //        switch (mainSelection)
+        //        {
+        //            case "Brand":
+        //                HandleEntityMenu<Brand>("Brand", scope.ServiceProvider.GetRequiredService<IBrandLogic>());
+        //                break;
+        //            case "Model":
+        //                HandleEntityMenu<BrandModel>("Model", scope.ServiceProvider.GetRequiredService<IModelLogic>());
+        //                break;
+        //            case "Extras":
+        //                HandleEntityMenu<Extras>("Extras", scope.ServiceProvider.GetRequiredService<IExtrasLogic>());
+        //                break;
+        //            case "Order":
+        //                HandleEntityMenu<Order>("Order", scope.ServiceProvider.GetRequiredService<IOrderLogic>());
+        //                break;
+        //            case "Instructions":
+        //                ShowInstructions();
+        //                break;
+        //            case "Exit":
+        //                running = false;
+        //                break;
+        //        }
+        //    }
+
+        //    AnsiConsole.MarkupLine("[green]Kilépés...[/]");
+        //}
+
+
+
+
+        public class MappingProfile : AutoMapper.Profile
+        {
+            public MappingProfile()
             {
-                var mainSelection = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("[yellow]Főmenü - Válassz egy opciót:[/]")
-                        .AddChoices(new[]
-                        {
-                        "Brand", "Model", "Extras", "Order", "Instructions", "Exit"
-                        }));
+                CreateMap<Brand, BrandEntity>();
+                CreateMap<BrandEntity, Brand>();
 
-                switch (mainSelection)
-                {
-                    case "Brand":
-                        HandleEntityMenu("Brand");
-                        break;
-                    case "Model":
-                        HandleEntityMenu("Model");
-                        break;
-                    case "Extras":
-                        HandleEntityMenu("Extras");
-                        break;
-                    case "Order":
-                        HandleEntityMenu("Order");
-                        break;
-                    case "Instructions":
-                        ShowInstructions();
-                        break;
-                    case "Exit":
-                        running = false;
-                        break;
-                }
-            }
+                CreateMap<BrandModel, ModelEntity>();
+                CreateMap<ModelEntity, BrandModel>();
 
-            AnsiConsole.MarkupLine("[green]Kilépés...[/]");
-        }
+                CreateMap<Order, OrderEntity>();
+                CreateMap<OrderEntity, Order>();
 
-        static void HandleEntityMenu(string entityName)
-        {
-            while (true)
-            {
-                var subSelection = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title($"[blue]{entityName} menü - válassz egy műveletet:[/]")
-                        .AddChoices(new[]
-                        {
-                        "Create", "Read", "Update", "Delete",
-                        "NonCrud1", "NonCrud2", "NonCrud3",
-                        "Back"
-                }));
-
-                if (subSelection == "Back")
-                    break;
-
-                AnsiConsole.MarkupLine($"[green]{entityName} - {subSelection} végrehajtva (még nincs implementálva)[/]");
+                CreateMap<Extras, ExtrasEntity>();
+                CreateMap<ExtrasEntity, Extras>();
             }
         }
 
-        static void ShowInstructions()
-        {
-            AnsiConsole.MarkupLine("[bold yellow]Használati útmutató:[/]");
-            AnsiConsole.MarkupLine("- Válassz entitást a főmenüből (Brand, Model, Extras, Order)");
-            AnsiConsole.MarkupLine("- Ezután válassz egy CRUD vagy Non-CRUD műveletet");
-            AnsiConsole.MarkupLine("- A Back menüponttal visszatérhetsz a főmenübe\n");
-        }
     }
-    public class MappingProfile : AutoMapper.Profile
-    {
-        public MappingProfile()
-        {
-            CreateMap<Brand, BrandEntity>();
-            CreateMap<BrandEntity, Brand>();
-
-            CreateMap<BrandModel, ModelEntity>();
-            CreateMap<ModelEntity, BrandModel>();
-
-            CreateMap<Order, OrderEntity>();
-            CreateMap<OrderEntity, Order>();
-
-            CreateMap<Extras, ExtrasEntity>();
-            CreateMap<ExtrasEntity, Extras>();
-        }
-    }
-
 }
