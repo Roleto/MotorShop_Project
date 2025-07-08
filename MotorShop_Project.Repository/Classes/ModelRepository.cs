@@ -1,4 +1,5 @@
-﻿using MotorShop_Project.Data.DBContext;
+﻿using Microsoft.EntityFrameworkCore;
+using MotorShop_Project.Data.DBContext;
 using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Repository.Interface;
 using System;
@@ -22,9 +23,14 @@ namespace MotorShop_Project.Repository.Classes
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
-
             context.Models.Add(item);
-            //context.SaveChanges();
+        }
+        public async Task CreateAsync(ModelEntity item)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
+            await context.Models.AddAsync(item);
         }
         public ModelEntity Read(int id)
         {
@@ -35,25 +41,24 @@ namespace MotorShop_Project.Repository.Classes
 
             return readItem;
         }
+
+        public async Task<ModelEntity> ReadAsync(int id)
+        {
+            var readItem = (await ReadAllAsync()).FirstOrDefault(x => x.Id == id);
+
+            if (readItem == null)
+                throw new KeyNotFoundException($"No Model found with Id {id}");
+
+            return readItem;
+        }
         public void Update(ModelEntity item)
         {
-            //minden féle képpen tszteld le hogy müködik a deletet is!!!!!!!!!
             context.Models.Update(item);
-
-            //var oldItem = Read(item.Id);
-
-            //oldItem.BrandId = item.BrandId;
-            //oldItem.Name = item.Name;
-            //oldItem.Type = item.Type;
-            //oldItem.Price = item.Price;
-
-            //context.SaveChanges();
         }
 
         public void Delete(ModelEntity item)
         {
             context.Models.Remove(item);
-            //context.SaveChanges();
         }
 
 
@@ -61,6 +66,9 @@ namespace MotorShop_Project.Repository.Classes
         {
             return context.Set<ModelEntity>();
         }
-
+        public async Task<IEnumerable<ModelEntity>> ReadAllAsync()
+        {
+            return await context.Set<ModelEntity>().ToListAsync();
+        }
     }
 }

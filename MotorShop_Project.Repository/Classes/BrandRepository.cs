@@ -25,8 +25,14 @@ namespace MotorShop_Project.Repository.Classes
                 throw new ArgumentNullException(nameof(item));
 
             context.Brands.Add(item);
-            //context.SaveChanges();
         }
+        public async Task CreateAsync(BrandEntity item)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+            await context.Brands.AddAsync(item);
+        }
+
         public BrandEntity Read(int id)
         {
             var readItem = ReadAll().FirstOrDefault(x => x.Id == id);
@@ -36,30 +42,34 @@ namespace MotorShop_Project.Repository.Classes
 
             return readItem;
         }
+        public async Task<BrandEntity> ReadAsync(int id)
+        {
+            var readItem = (await ReadAllAsync()).FirstOrDefault(x => x.Id == id);
+
+            if (readItem == null)
+                throw new KeyNotFoundException($"No Brand found with Id {id}");
+
+            return readItem;
+        }
+
         public void Update(BrandEntity item)
         {
-            //minden féle képpen tszteld le hogy müködik a deletet is!!!!!!!!!
             context.Brands.Update(item);
-
-            //var oldItem = Read(item.Id);
-
-            //    oldItem.Name = item.Name;
-            //    oldItem.Models = item.Models;
-            //    oldItem.Alt = item.Alt;
-            //    oldItem.ImgUrl = item.ImgUrl;
-
-                //context.SaveChanges();
         }
 
         public void Delete(BrandEntity item)
         {
             context.Brands.Remove(item);
-            //context.SaveChanges();
         }
-        
         public IEnumerable<BrandEntity> ReadAll()
         {
             return context.Set<BrandEntity>();
+        }
+
+
+        public async Task<IEnumerable<BrandEntity>> ReadAllAsync()
+        {
+            return await context.Set<BrandEntity>().ToListAsync();
         }
 
         // Nem kell ehez a projecthez csak hogy ne feljds el hogy van ilyen is

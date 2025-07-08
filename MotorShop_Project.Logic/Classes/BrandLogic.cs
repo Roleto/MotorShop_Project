@@ -28,18 +28,35 @@ namespace MotorShop_Project.Logic.Classes
             unitOfWork.Brands.Create(entity);
             unitOfWork.Complete();
         }
-
+        public async Task CreateAsync(Brand item)
+        {
+            var entity = mapper.Map<BrandEntity>(item);
+            await unitOfWork.Brands.CreateAsync(entity);
+            await unitOfWork.CompleteAsync();
+        }
         public Brand Read(int id)
         {
             var entity = unitOfWork.Brands.Read(id);
             return mapper.Map<Brand>(entity);
         }
 
+        public async Task<Brand> ReadAsync(int id)
+        {
+            var entity = await unitOfWork.Brands.ReadAsync(id);
+            return mapper.Map<Brand>(entity);
+        }
         public void Update(Brand item)
         {
             var entity = mapper.Map<BrandEntity>(item);
             unitOfWork.Brands.Update(entity);
             unitOfWork.Complete();
+        }
+
+        public async Task UpdateAsync(Brand item)
+        {
+            var entity = mapper.Map<BrandEntity>(item);
+            unitOfWork.Brands.Update(entity);
+            await unitOfWork.CompleteAsync();
         }
         public void Delete(Brand item)
         {
@@ -47,9 +64,20 @@ namespace MotorShop_Project.Logic.Classes
             unitOfWork.Brands.Delete(entity);
             unitOfWork.Complete();
         }
+
+        public async Task DeleteAsync(Brand item)
+        {
+            var entity = mapper.Map<BrandEntity>(item);
+            unitOfWork.Brands.Delete(entity);
+            await unitOfWork.CompleteAsync();
+        }
         public IEnumerable<Brand> ReadAll()
         {
             return mapper.Map<IEnumerable<Brand>>(unitOfWork.Brands.ReadAll());
+        }
+        public async Task<IEnumerable<Brand>> ReadAllAsync()
+        {
+            return mapper.Map<IEnumerable<Brand>>( await unitOfWork.Brands.ReadAllAsync());
         }
 
         public void nonCrud1()

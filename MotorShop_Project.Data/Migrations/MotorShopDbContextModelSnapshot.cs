@@ -61,7 +61,7 @@ namespace MotorShop_Project.Data.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("MotorShop_Project.Data.Entities.ExtrasEntity", b =>
@@ -99,7 +99,7 @@ namespace MotorShop_Project.Data.Migrations
 
                     b.HasIndex("Type");
 
-                    b.ToTable("Extras");
+                    b.ToTable("Extras", (string)null);
                 });
 
             modelBuilder.Entity("MotorShop_Project.Data.Entities.ModelEntity", b =>
@@ -132,7 +132,7 @@ namespace MotorShop_Project.Data.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Models");
+                    b.ToTable("Models", (string)null);
                 });
 
             modelBuilder.Entity("MotorShop_Project.Data.Entities.OrderEntity", b =>
@@ -163,7 +163,7 @@ namespace MotorShop_Project.Data.Migrations
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("ExtrasEntityOrderEntity", b =>

@@ -1,4 +1,5 @@
-﻿using MotorShop_Project.Data.DBContext;
+﻿using Microsoft.EntityFrameworkCore;
+using MotorShop_Project.Data.DBContext;
 using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Repository.Interface;
 using System;
@@ -24,7 +25,14 @@ namespace MotorShop_Project.Repository.Classes
                 throw new ArgumentNullException(nameof(item));
 
             context.Orders.Add(item);
-            //context.SaveChanges();
+        }
+
+        public async Task CreateAsync(OrderEntity item)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
+            await context.Orders.AddAsync(item);
         }
 
         public OrderEntity Read(int id)
@@ -37,31 +45,34 @@ namespace MotorShop_Project.Repository.Classes
             return readItem;
         }
 
+        public async Task<OrderEntity> ReadAsync(int id)
+        {
+            var readItem = (await ReadAllAsync()).FirstOrDefault(x => x.Id == id);
+
+            if (readItem == null)
+                throw new KeyNotFoundException($"No Order found with Id {id}");
+
+            return readItem;
+        }
+
         public void Update(OrderEntity item)
         {
-            //minden féle képpen tszteld le hogy müködik a deletet is!!!!!!!!!
             context.Orders.Update(item);
-
-            //var oldItem = Read(item.Id);
-
-            //oldItem.BrandId = item.BrandId;
-            //oldItem.ModelId = item.ModelId;
-            //oldItem.OrderTime = item.OrderTime;
-            //oldItem.HasExtras = item.HasExtras;
-            //oldItem.Extras = item.Extras;
-
-            //context.SaveChanges();
         }
 
         public void Delete(OrderEntity item)
         {
             context.Orders.Remove(item);
-            //context.SaveChanges();
         }
 
         public IEnumerable<OrderEntity> ReadAll()
         {
             return context.Set<OrderEntity>();
+        }
+
+        public async Task<IEnumerable<OrderEntity>> ReadAllAsync()
+        {
+            return await context.Set<OrderEntity>().ToListAsync();
         }
     }
 }

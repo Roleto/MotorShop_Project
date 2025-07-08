@@ -1,38 +1,49 @@
-﻿using MotorShop_Project.Data.DBContext;
-using MotorShop_Project.Data.Entities;
-using MotorShop_Project.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿    using Microsoft.EntityFrameworkCore;
+    using MotorShop_Project.Data.DBContext;
+    using MotorShop_Project.Data.Entities;
+    using MotorShop_Project.Repository.Interface;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-namespace MotorShop_Project.Repository.Classes
-{
-    public class UnitOfWork : IUnitOfWork
+    namespace MotorShop_Project.Repository.Classes
     {
-        private readonly MotorShopDbContext context;
-
-        public UnitOfWork(MotorShopDbContext context)
+        public class UnitOfWork : IUnitOfWork
         {
-            this.context = context;
-            Brands = new BrandRepository(context);
-            Models = new ModelRepository(context);
-            Extras = new ExtrasRepository(context);
-            Orders = new OrderRepository(context);
-        }
+            private readonly MotorShopDbContext context;
 
-        public IRepository<BrandEntity> Brands  { get; }
+            public UnitOfWork(MotorShopDbContext context)
+            {
+                this.context = context;
+                Brands = new BrandRepository(context);
+                Models = new ModelRepository(context);
+                Extras = new ExtrasRepository(context);
+                Orders = new OrderRepository(context);
+            }
 
-        public IRepository<ModelEntity> Models { get; }
+            public IRepository<BrandEntity> Brands  { get; }
 
-        public IRepository<ExtrasEntity> Extras { get; }
+            public IRepository<ModelEntity> Models { get; }
 
-        public IRepository<OrderEntity> Orders { get; }
+            public IRepository<ExtrasEntity> Extras { get; }
 
-        public void Complete()
-        {
-            context.SaveChanges();
+            public IRepository<OrderEntity> Orders { get; }
+
+            public void Complete()
+            {
+                context.SaveChanges();
+            }
+
+            public async Task CompleteAsync()
+            {
+                await context.SaveChangesAsync();
+            }
+
+            public void Dispose()
+            {
+                context.Dispose();
+            }
         }
     }
-}

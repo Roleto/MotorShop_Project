@@ -1,4 +1,5 @@
-﻿using MotorShop_Project.Data.DBContext;
+﻿using Microsoft.EntityFrameworkCore;
+using MotorShop_Project.Data.DBContext;
 using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Repository.Interface;
 using System;
@@ -24,7 +25,13 @@ namespace MotorShop_Project.Repository.Classes
                 throw new ArgumentNullException(nameof(item));
 
             context.Extras.Add(item);
-            //context.SaveChanges();
+        }
+        public async Task CreateAsync(ExtrasEntity item)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
+            await context.Extras.AddAsync(item);
         }
 
         public ExtrasEntity Read(int id)
@@ -36,31 +43,33 @@ namespace MotorShop_Project.Repository.Classes
 
             return readItem;
         }
+        public async Task<ExtrasEntity> ReadAsync(int id)
+        {
+            var readItem = (await ReadAllAsync()).FirstOrDefault(x => x.Id == id);
+
+            if (readItem == null)
+                throw new KeyNotFoundException($"No Extras found with Id {id}");
+
+            return readItem;
+        }
 
         public void Update(ExtrasEntity item)
         {
-            //minden féle képpen tszteld le hogy müködik a deletet is!!!!!!!!!
             context.Extras.Update(item);
-            //var oldItem = Read(item.Id);
-
-            //oldItem.ModelId = item.ModelId;
-            //oldItem.Name = item.Name;
-            //oldItem.Type = item.Type;
-            //oldItem.Price = item.Price;
-            //oldItem.Description = item.Description;
-
-            //context.SaveChanges();
         }
 
         public void Delete(ExtrasEntity item)
         {
             context.Extras.Remove(item);
-            //context.SaveChanges();
         }
 
         public IEnumerable<ExtrasEntity> ReadAll()
         {
             return context.Set<ExtrasEntity>();
+        }
+        public async Task<IEnumerable<ExtrasEntity>> ReadAllAsync()
+        {
+            return await context.Set<ExtrasEntity>().ToListAsync();
         }
     }
 }

@@ -16,6 +16,8 @@ namespace MotorShop_Project.Repository.Interface
         IRepository<OrderEntity> Orders { get; }
 
         void Complete();
+        Task CompleteAsync();
+
     }
 
 }
