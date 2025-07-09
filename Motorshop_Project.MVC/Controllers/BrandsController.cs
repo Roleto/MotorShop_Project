@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MotorShop_Project.Data.DBContext;
-using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
 
@@ -57,7 +48,7 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Alt,Image,ContentType")] Brand brandEntity, IFormFile? ImageUpload)
+        public async Task<IActionResult> Create([Bind("Id,Name,Alt,Image,ContentType")] Brand brand, IFormFile? ImageUpload)
         {
             if (ModelState.IsValid)
             {
@@ -66,14 +57,14 @@ namespace Motorshop_Project.MVC.Controllers
                     using (var ms = new MemoryStream())
                     {
                         await ImageUpload.CopyToAsync(ms);
-                        brandEntity.Image = ms.ToArray();
-                        brandEntity.ContentType = ImageUpload.ContentType;
+                        brand.Image = ms.ToArray();
+                        brand.ContentType = ImageUpload.ContentType;
                     }
                 }
-                await _logic.CreateAsync(brandEntity);
+                await _logic.CreateAsync(brand);
                 return RedirectToAction(nameof(Index));
             }
-            return View(brandEntity);
+            return View(brand);
         }
 
         // GET: Brands/Edit/5
@@ -97,9 +88,9 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Alt,Image,ContentType")] Brand brandEntity, IFormFile? ImageUpload, bool wantNewImage)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Alt,Image,ContentType")] Brand brand, IFormFile? ImageUpload, bool wantNewImage)
         {
-            if (id != brandEntity.Id)
+            if (id != brand.Id)
             {
                 return NotFound();
             }
@@ -113,23 +104,23 @@ namespace Motorshop_Project.MVC.Controllers
                         using (var ms = new MemoryStream())
                         {
                             await ImageUpload.CopyToAsync(ms);
-                            brandEntity.Image = ms.ToArray();
-                            brandEntity.ContentType = ImageUpload.ContentType;
+                            brand.Image = ms.ToArray();
+                            brand.ContentType = ImageUpload.ContentType;
                         }
                     }
                     else
                     {
-                        brandEntity.Image = null;
-                        brandEntity.ContentType = null;
+                        brand.Image = null;
+                        brand.ContentType = null;
                     }
                 }
                 try
                 {
-                    _logic.Update(brandEntity);
+                    _logic.Update(brand);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BrandEntityExists(brandEntity.Id))
+                    if (!BrandEntityExists(brand.Id))
                     {
                         return NotFound();
                     }
@@ -140,7 +131,7 @@ namespace Motorshop_Project.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(brandEntity);
+            return View(brand);
         }
 
         // GET: Brands/Delete/5

@@ -1,28 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
 
 namespace Motorshop_Project.MVC.Controllers
 {
-    public class ModelsController : Controller
+    public class ExtrasController : Controller
     {
-        private readonly IModelLogic _logic;
+        private readonly IExtrasLogic _logic;
 
-        public ModelsController(IModelLogic logic)
+        public ExtrasController(IExtrasLogic logic)
         {
             _logic = logic;
         }
 
-
-        // GET: ModelEntities
+        // GET: Extras
         public async Task<IActionResult> Index()
         {
-            return View(await _logic.ReadAllAsync());
+            var indexSet = _logic.ReadAll().Include(e => e.Model);
+            return View(await indexSet.ToListAsync());
         }
 
-        // GET: ModelEntities/Details/5
+        // GET: Extras/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,39 +31,41 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var modelEntity = await _logic.ReadAsync(id.Value);
-            if (modelEntity == null)
+            var extrasEntity = await _logic.ReadAll()
+                .Include(e => e.Model)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (extrasEntity == null)
             {
                 return NotFound();
             }
 
-            return View(modelEntity);
+            return View(extrasEntity);
         }
 
-        // GET: ModelEntities/Create
+        // GET: Extras/Create
         public IActionResult Create()
         {
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name");
+            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name");
             return View();
         }
 
-        // POST: ModelEntities/Create
+        // POST: Extras/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BrandId,Name,Type,Price")] BrandModel model)
+        public async Task<IActionResult> Create([Bind("Id,ModelId,Name,Type,Price,Description")] Extras extra)
         {
             if (ModelState.IsValid)
             {
-                await _logic.CreateAsync(model);
+                await _logic.CreateAsync(extra);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", model.BrandId);
-            return View(model);
+            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", extra.ModelId);
+            return View(extra);
         }
 
-        // GET: ModelEntities/Edit/5
+        // GET: Extras/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -70,23 +73,23 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var modelEntity = await _logic.ReadAsync(id.Value);
-            if (modelEntity == null)
+            var extrasEntity = await _logic.ReadAsync(id.Value);
+            if (extrasEntity == null)
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", modelEntity.BrandId);
-            return View(modelEntity);
+            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", extrasEntity.ModelId);
+            return View(extrasEntity);
         }
 
-        // POST: ModelEntities/Edit/5
+        // POST: Extras/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BrandId,Name,Type,Price")] BrandModel model)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ModelId,Name,Type,Price,Description")] Extras extra)
         {
-            if (id != model.Id)
+            if (id != extra.Id)
             {
                 return NotFound();
             }
@@ -95,11 +98,11 @@ namespace Motorshop_Project.MVC.Controllers
             {
                 try
                 {
-                    await _logic.UpdateAsync(model);
+                    await _logic.UpdateAsync(extra);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ModelEntityExists(model.Id))
+                    if (!ExtrasEntityExists(extra.Id))
                     {
                         return NotFound();
                     }
@@ -110,11 +113,11 @@ namespace Motorshop_Project.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", model.BrandId);
-            return View(model);
+            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", extra.ModelId);
+            return View(extra);
         }
 
-        // GET: ModelEntities/Delete/5
+        // GET: Extras/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -122,31 +125,32 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var modelEntity = await _logic.ReadAll()
-                .Include(m => m.Brand)
+            var extrasEntity = await _logic.ReadAll()
+                .Include(e => e.Model)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (modelEntity == null)
+            if (extrasEntity == null)
             {
                 return NotFound();
             }
 
-            return View(modelEntity);
+            return View(extrasEntity);
         }
 
-        // POST: ModelEntities/Delete/5
+        // POST: Extras/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var modelEntity = await _logic.ReadAsync(id);
-            if (modelEntity != null)
+            var extrasEntity = await _logic.ReadAsync(id);
+            if (extrasEntity != null)
             {
-                await _logic.DeleteAsync(modelEntity);
+                await _logic.DeleteAsync(extrasEntity);
             }
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ModelEntityExists(int id)
+        private bool ExtrasEntityExists(int id)
         {
             return _logic.ReadAll().Any(e => e.Id == id);
         }

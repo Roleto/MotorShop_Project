@@ -4,11 +4,6 @@ using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
 using MotorShop_Project.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MotorShop_Project.Logic.Classes
 {
@@ -16,6 +11,9 @@ namespace MotorShop_Project.Logic.Classes
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+
+        public IEnumerable<BrandModel> GetModels => mapper.Map<IEnumerable<BrandModel>>(unitOfWork.Brands.ReadAll());
+
 
         public ExtrasLogic(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -93,6 +91,5 @@ namespace MotorShop_Project.Logic.Classes
         {
             throw new NotImplementedException();
         }
-        
     }
 }

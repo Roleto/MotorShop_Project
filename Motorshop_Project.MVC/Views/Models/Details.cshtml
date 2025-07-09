@@ -1,4 +1,5 @@
-﻿@model MotorShop_Project.Data.Entities.ModelEntity
+﻿@model MotorShop_Project.Model.Classes.BrandModel
+
 
 @{
     ViewData["Title"] = "Details";
@@ -29,10 +30,10 @@
             @Html.DisplayFor(model => model.Type)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayFor(model => model.Type)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Price)
         </dd>
     </dl>
 </div>
