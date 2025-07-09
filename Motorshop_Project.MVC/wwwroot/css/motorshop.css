@@ -58,3 +58,63 @@ a {
     .create-link:hover {
         background-color: #0056b3;
     }
+
+.back-link {
+    display: inline-block;
+    width: 150px;
+    padding: 10px 20px;
+    margin: 10px auto;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .back-link:hover {
+        background-color: #5a6268;
+        transform: scale(1.04);
+        text-decoration: none;
+        color: white;
+    }
+.edit-link {
+    width: 150px;
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #ffc107;
+    color: #212529;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-right: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .edit-link:hover {
+        background-color: #e0a800;
+        color: #fff;
+        transform: scale(1.03);
+    }
+
+a.create-link,
+a.back-link,
+a.edit-link,
+a.details-link,
+a.delete-link,
+.action-buttons a {
+    font-size: 14px;
+    padding: 8px 14px;
+    line-height: 1.5;
+}
+
+.btn {
+    font-size: 14px;
+    padding: 8px 14px;
+    line-height: 1.5;
+    border-radius: 4px;
+    font-weight: 600;
+}
