@@ -18,6 +18,10 @@ namespace MotorShop_Project.Logic.Classes
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
+        public IEnumerable<Brand> GetBrands => mapper.Map<IEnumerable<Brand>>(unitOfWork.Brands.ReadAll());
+        public IEnumerable<BrandModel> GetModels => mapper.Map<IEnumerable<BrandModel>>(unitOfWork.Brands.ReadAll());
+
+
         public OrderLogic(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
