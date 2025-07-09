@@ -29,7 +29,20 @@ namespace MotorShop_Project.Model.Classes
         public string? ContentType { get; set; }
 
         public ICollection<BrandModel> Models { get; set; } = new List<BrandModel>();
-        public bool HasImage { get => !(Image != null && Image.Length ==0); }
+        public bool HasImage { get => Image != null && Image.Length !=0; }
+                                              
+        public string? GetImgSrc
+        {
+            get
+            {
+                if (HasImage)
+                {
+                    var base64 = Convert.ToBase64String(Image);
+                    return $"data:{ContentType};base64,{base64}";
+                }
+                return null;
+            }
+        }
 
         public override string ToString()
         {

@@ -63,7 +63,7 @@ namespace MotorShop_Project.Repository.Classes
             context.Extras.Remove(item);
         }
 
-        public IEnumerable<ExtrasEntity> ReadAll()
+        public DbSet<ExtrasEntity> ReadAll()
         {
             return context.Set<ExtrasEntity>();
         }

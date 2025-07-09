@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,25 +12,23 @@ using MotorShop_Project.Model.Classes;
 
 namespace Motorshop_Project.MVC.Controllers
 {
-    public class BrandController_old : Controller
+    public class ModelsController : Controller
     {
-        private readonly IBrandLogic _logic;
-        private readonly IMapper mapper;
+        private readonly IModelLogic _logic;
 
-
-        public BrandController_old(IBrandLogic logic, IMapper mapper)
+        public ModelsController(IModelLogic logic)
         {
             _logic = logic;
-            this.mapper = mapper;
         }
 
-        // GET: BrandEntities
+
+        // GET: ModelEntities
         public async Task<IActionResult> Index()
         {
             return View(await _logic.ReadAllAsync());
         }
 
-        // GET: BrandEntities/Details/5
+        // GET: ModelEntities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,37 +36,39 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var brandEntity = await _logic.ReadAsync(id.Value);
-            if (brandEntity == null)
+            var modelEntity = await _logic.ReadAsync(id.Value);
+            if (modelEntity == null)
             {
                 return NotFound();
             }
 
-            return View(brandEntity);
+            return View(modelEntity);
         }
 
-        // GET: BrandEntities/Create
+        // GET: ModelEntities/Create
         public IActionResult Create()
         {
+            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name");
             return View();
         }
 
-        // POST: BrandEntities/Create
+        // POST: ModelEntities/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Alt,ImgUrl")] Brand brandEntity)
+        public async Task<IActionResult> Create([Bind("Id,BrandId,Name,Type,Price")] BrandModel modelEntity)
         {
             if (ModelState.IsValid)
             {
-                await _logic.CreateAsync(brandEntity);
+                await _logic.CreateAsync(modelEntity);
                 return RedirectToAction(nameof(Index));
             }
-            return View(brandEntity);
+            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", modelEntity.BrandId);
+            return View(modelEntity);
         }
 
-        // GET: BrandEntities/Edit/5
+        // GET: ModelEntities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,22 +76,23 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var brandEntity = await _logic.ReadAsync(id.Value);
-            if (brandEntity == null)
+            var modelEntity = await _logic.ReadAsync(id.Value);
+            if (modelEntity == null)
             {
                 return NotFound();
             }
-            return View(brandEntity);
+            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", modelEntity.BrandId);
+            return View(modelEntity);
         }
 
-        // POST: BrandEntities/Edit/5
+        // POST: ModelEntities/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Alt,ImgUrl")] Brand brandEntity)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BrandId,Name,Type,Price")] BrandModel modelEntity)
         {
-            if (id != brandEntity.Id)
+            if (id != modelEntity.Id)
             {
                 return NotFound();
             }
@@ -101,11 +101,11 @@ namespace Motorshop_Project.MVC.Controllers
             {
                 try
                 {
-                    _logic.Update(brandEntity);
+                    await _logic.UpdateAsync(modelEntity);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BrandEntityExists(brandEntity.Id))
+                    if (!ModelEntityExists(modelEntity.Id))
                     {
                         return NotFound();
                     }
@@ -116,10 +116,11 @@ namespace Motorshop_Project.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(brandEntity);
+            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", modelEntity.BrandId);
+            return View(modelEntity);
         }
 
-        // GET: Brand/Delete/5
+        // GET: ModelEntities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,25 +128,31 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var brandEntity = await _logic.ReadAsync(id.Value);
-            if (brandEntity == null)
+            var modelEntity = await _logic.ReadAll()
+                .Include(m => m.Brand)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (modelEntity == null)
             {
                 return NotFound();
             }
 
-            return View(brandEntity);
+            return View(modelEntity);
         }
 
-        // POST: Brand/Delete/5
+        // POST: ModelEntities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Brand brandEntity)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _logic.DeleteAsync(brandEntity);
+            var modelEntity = await _logic.ReadAsync(id);
+            if (modelEntity != null)
+            {
+                await _logic.DeleteAsync(modelEntity);
+            }
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BrandEntityExists(int id)
+        private bool ModelEntityExists(int id)
         {
             return _logic.ReadAll().Any(e => e.Id == id);
         }

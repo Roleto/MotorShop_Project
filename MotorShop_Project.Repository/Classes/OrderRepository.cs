@@ -65,7 +65,7 @@ namespace MotorShop_Project.Repository.Classes
             context.Orders.Remove(item);
         }
 
-        public IEnumerable<OrderEntity> ReadAll()
+        public DbSet<OrderEntity> ReadAll()
         {
             return context.Set<OrderEntity>();
         }

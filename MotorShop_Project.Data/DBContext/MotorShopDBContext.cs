@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Data.Entities;
 
 namespace MotorShop_Project.Data.DBContext
@@ -71,15 +65,5 @@ namespace MotorShop_Project.Data.DBContext
                     .Property(b => b.Image)
                     .HasColumnType("varbinary(max)");
         }
-
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {        
-//#if DEBUG
-//            optionsBuilder
-//                .EnableSensitiveDataLogging()
-//                .LogTo(Console.WriteLine);
-//#endif
-//        }
     }
-
 }

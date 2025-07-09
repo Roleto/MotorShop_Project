@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MotorShop_Project.Repository.Interface
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : class
     {
         void Create(T item);
         Task CreateAsync(T item);
@@ -14,7 +15,7 @@ namespace MotorShop_Project.Repository.Interface
         Task<T> ReadAsync(int id);
         void Update(T item);
         void Delete(T item);
-        IEnumerable<T> ReadAll();
+        DbSet<T> ReadAll();
         Task<IEnumerable<T>> ReadAllAsync();
 
         //T ReadNoTracking(int id);

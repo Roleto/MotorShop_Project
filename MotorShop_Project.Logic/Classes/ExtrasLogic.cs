@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
@@ -70,9 +71,9 @@ namespace MotorShop_Project.Logic.Classes
             unitOfWork.Extras.Delete(entity);
             await unitOfWork.CompleteAsync();
         }
-        public IEnumerable<Extras> ReadAll()
+        public DbSet<Extras> ReadAll()
         {
-            return mapper.Map<IEnumerable<Extras>>(unitOfWork.Extras.ReadAll());
+            return mapper.Map<DbSet<Extras>>(unitOfWork.Extras.ReadAll());
         }
         public async  Task<IEnumerable<Extras>> ReadAllAsync()
         {

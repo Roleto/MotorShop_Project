@@ -66,7 +66,7 @@ namespace MotorShop_Project.Repository.Classes
         {
             context.Brands.Remove(item);
         }
-        public IEnumerable<BrandEntity> ReadAll()
+        public DbSet<BrandEntity> ReadAll()
         {
             return context.Set<BrandEntity>();
         }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
@@ -15,6 +16,8 @@ namespace MotorShop_Project.Logic.Classes
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+
+        public IEnumerable<Brand> GetBrands => mapper.Map<IEnumerable<Brand>>(unitOfWork.Brands.ReadAll());
 
         public ModelLogic(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -77,9 +80,9 @@ namespace MotorShop_Project.Logic.Classes
             unitOfWork.Models.Delete(entity);
             await unitOfWork.CompleteAsync();
         }
-        public IEnumerable<BrandModel> ReadAll()
+        public DbSet<BrandModel> ReadAll()
         {
-            return mapper.Map<IEnumerable<BrandModel>>(unitOfWork.Models.ReadAll());
+            return mapper.Map<DbSet<BrandModel>>(unitOfWork.Models.ReadAll());
         }
         public async Task<IEnumerable<BrandModel>> ReadAllAsync()
         {

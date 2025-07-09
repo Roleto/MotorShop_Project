@@ -4,7 +4,6 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +17,10 @@ namespace Motorshop_Project.MVC.Controllers
     public class BrandsController : Controller
     {
         private readonly IBrandLogic _logic;
-        private readonly IMapper mapper;
 
-        public BrandsController(IBrandLogic logic, IMapper mapper)
+        public BrandsController(IBrandLogic logic)
         {
             _logic = logic;
-            this.mapper = mapper;
         }
 
         // GET: Brands
@@ -100,7 +97,7 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Alt,Image,ContentType")] Brand brandEntity, IFormFile? ImageUpload)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Alt,Image,ContentType")] Brand brandEntity, IFormFile? ImageUpload, bool wantNewImage)
         {
             if (id != brandEntity.Id)
             {
@@ -109,13 +106,21 @@ namespace Motorshop_Project.MVC.Controllers
 
             if (ModelState.IsValid)
             {
-                if (ImageUpload != null && ImageUpload.Length > 0)
+                if (wantNewImage)
                 {
-                    using (var ms = new MemoryStream())
+                    if (ImageUpload != null && ImageUpload.Length > 0)
                     {
-                        await ImageUpload.CopyToAsync(ms);
-                        brandEntity.Image = ms.ToArray();
-                        brandEntity.ContentType = ImageUpload.ContentType;
+                        using (var ms = new MemoryStream())
+                        {
+                            await ImageUpload.CopyToAsync(ms);
+                            brandEntity.Image = ms.ToArray();
+                            brandEntity.ContentType = ImageUpload.ContentType;
+                        }
+                    }
+                    else
+                    {
+                        brandEntity.Image = null;
+                        brandEntity.ContentType = null;
                     }
                 }
                 try

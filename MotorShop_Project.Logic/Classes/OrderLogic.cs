@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
@@ -74,9 +75,9 @@ namespace MotorShop_Project.Logic.Classes
             await unitOfWork.CompleteAsync();
         }
         
-        public IEnumerable<Order> ReadAll()
+        public DbSet<Order> ReadAll()
         {
-            return mapper.Map<IEnumerable<Order>>(unitOfWork.Models.ReadAll());
+            return mapper.Map<DbSet<Order>>(unitOfWork.Models.ReadAll());
         }
         
 

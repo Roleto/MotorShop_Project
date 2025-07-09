@@ -23,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.Image)
             </th>
             <th>
-                
+                Actions
             </th>
             <th></th>
         </tr>
@@ -38,16 +38,11 @@
                 @Html.DisplayFor(modelItem => item.Alt)
             </td>
             <td>
-                @* @Html.DisplayFor(modelItem => item.Image) *@
-                    @if (item.HasImage)
-                    {
-                        var base64 = Convert.ToBase64String(item.Image);
-                        var imageSrc = $"data:{item.ContentType};base64,{base64}";
-                        <img src="@imageSrc" alt="@item.Alt" width="150" />
-                    }
-                    else
-                    {
-                        <img src="/images/placeholde_img.png" alt="place_holder" width="150" />
+                    @{
+                        var imageSrc = item.GetImgSrc;
+                        <img src="@(string.IsNullOrEmpty(imageSrc) ? "/images/placeholde_img.png" : imageSrc)"
+                             alt="@(string.IsNullOrEmpty(imageSrc) ? "place_holder" : item.Alt)"
+                             width="150" />
                     }
             </td>
             <td>

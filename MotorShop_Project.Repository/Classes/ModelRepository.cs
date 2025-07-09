@@ -62,7 +62,7 @@ namespace MotorShop_Project.Repository.Classes
         }
 
 
-        public IEnumerable<ModelEntity> ReadAll()
+        public DbSet<ModelEntity> ReadAll()
         {
             return context.Set<ModelEntity>();
         }

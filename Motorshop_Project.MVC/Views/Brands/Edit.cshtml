@@ -25,6 +25,18 @@
                 <span asp-validation-for="Alt" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Want to edit the picture?</label><br />
+
+                <label for="wantNewImageTrue">Yes</label>
+                <input type="radio" name="wantNewImage" value="true" id="wantNewImageTrue" />
+
+                <label for="wantNewImageFalse">No</label>
+                <input type="radio" name="wantNewImage" value="false" checked id="wantNewImageFalse" />
+            </div>
+            <div class="form-group">
+                @Html.HiddenFor(model => model.Image)
+                @Html.HiddenFor(model => model.ContentType)
+
                     <label class="control-label">Image Upload (optional)</label>
                     <input type="file" name="ImageUpload" class="form-control" />
             </div>
