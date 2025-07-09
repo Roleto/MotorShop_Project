@@ -18,8 +18,7 @@ namespace Motorshop_Project.MVC.Controllers
         // GET: Extras
         public async Task<IActionResult> Index()
         {
-            var indexSet = _logic.ReadAll().Include(e => e.Model);
-            return View(await indexSet.ToListAsync());
+            return View(await _logic.ReadAllAsync());
         }
 
         // GET: Extras/Details/5
@@ -30,15 +29,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var extrasEntity = await _logic.ReadAll()
-                .Include(e => e.Model)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (extrasEntity == null)
+            var extra = await _logic.ReadAsync(id.Value);
+            if (extra == null)
             {
                 return NotFound();
             }
 
-            return View(extrasEntity);
+            return View(extra);
         }
 
         // GET: Extras/Create
@@ -72,13 +69,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var extrasEntity = await _logic.ReadAsync(id.Value);
-            if (extrasEntity == null)
+            var extra = await _logic.ReadAsync(id.Value);
+            if (extra == null)
             {
                 return NotFound();
             }
-            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", extrasEntity.ModelId);
-            return View(extrasEntity);
+            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", extra.ModelId);
+            return View(extra);
         }
 
         // POST: Extras/Edit/5
@@ -124,15 +121,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var extrasEntity = await _logic.ReadAll()
-                .Include(e => e.Model)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (extrasEntity == null)
+            var extra = await _logic.ReadAsync(id.Value);
+            if (extra == null)
             {
                 return NotFound();
             }
 
-            return View(extrasEntity);
+            return View(extra);
         }
 
         // POST: Extras/Delete/5
@@ -140,10 +135,10 @@ namespace Motorshop_Project.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var extrasEntity = await _logic.ReadAsync(id);
-            if (extrasEntity != null)
+            var extra = await _logic.ReadAsync(id);
+            if (extra != null)
             {
-                await _logic.DeleteAsync(extrasEntity);
+                await _logic.DeleteAsync(extra);
             }
 
             return RedirectToAction(nameof(Index));

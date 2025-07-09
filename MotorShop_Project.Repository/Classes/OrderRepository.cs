@@ -67,7 +67,7 @@ namespace MotorShop_Project.Repository.Classes
 
         public async Task<IEnumerable<OrderEntity>> ReadAllAsync()
         {
-            return await context.Set<OrderEntity>().ToListAsync();
+            return await context.Set<OrderEntity>().Include(o => o.Brand).Include(o => o.Model).ToListAsync();
         }
     }
 }

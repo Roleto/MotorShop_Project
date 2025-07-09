@@ -1,4 +1,7 @@
-﻿namespace MotorShop_Project.Model.Classes
+﻿using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
+
+namespace MotorShop_Project.Model.Classes
 {
     public class Brand
     {
@@ -13,9 +16,12 @@
             Alt = alt;
             Image = image;
         }
-
+        [Display(Name = "Brand Id")]
         public int Id { get; set; }
+
+        [Display(Name = "Brand Name")]
         public string Name { get; set; } = null!;
+        [Display(Name = "Image Description")]
         public string? Alt { get; set; }
 
         public byte[]? Image { get; set; }
@@ -33,7 +39,7 @@
                     var base64 = Convert.ToBase64String(Image);
                     return $"data:{ContentType};base64,{base64}";
                 }
-                return null;
+                    return null;
             }
         }
 

@@ -12,8 +12,8 @@ namespace MotorShop_Project.Logic.Classes
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public IEnumerable<Brand> GetBrands => mapper.Map<IEnumerable<Brand>>(unitOfWork.Brands.ReadAll());
-        public IEnumerable<BrandModel> GetModels => mapper.Map<IEnumerable<BrandModel>>(unitOfWork.Brands.ReadAll());
+        public IEnumerable<Brand> GetBrands => mapper.Map<IQueryable<Brand>>(unitOfWork.Brands.ReadAll());
+        public IEnumerable<BrandModel> GetModels => mapper.Map<IQueryable<BrandModel>>(unitOfWork.Brands.ReadAll());
 
 
         public OrderLogic(IUnitOfWork unitOfWork, IMapper mapper)
@@ -73,15 +73,15 @@ namespace MotorShop_Project.Logic.Classes
             await unitOfWork.CompleteAsync();
         }
         
-        public DbSet<Order> ReadAll()
+        public IQueryable<Order> ReadAll()
         {
-            return mapper.Map<DbSet<Order>>(unitOfWork.Models.ReadAll());
+            return mapper.Map<IEnumerable<Order>>(unitOfWork.Orders.ReadAll()).AsQueryable();
         }
         
 
         public async Task<IEnumerable<Order>> ReadAllAsync()
         {
-            return mapper.Map<IEnumerable<Order>>(await unitOfWork.Models.ReadAllAsync());
+            return mapper.Map<IEnumerable<Order>>(await unitOfWork.Orders.ReadAllAsync());
         }
         public void nonCrud1()
         {

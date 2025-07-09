@@ -73,9 +73,9 @@ namespace MotorShop_Project.Logic.Classes
             unitOfWork.Brands.Delete(entity);
             await unitOfWork.CompleteAsync();
         }
-        public DbSet<Brand> ReadAll()
+        public IQueryable<Brand> ReadAll()
         {
-            return mapper.Map<DbSet<Brand>>(unitOfWork.Brands.ReadAll());
+            return mapper.Map<IEnumerable<Brand>>(unitOfWork.Brands.ReadAll()).AsQueryable();
         }
         public async Task<IEnumerable<Brand>> ReadAllAsync()
         {

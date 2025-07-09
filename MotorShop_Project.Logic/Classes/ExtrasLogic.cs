@@ -69,9 +69,9 @@ namespace MotorShop_Project.Logic.Classes
             unitOfWork.Extras.Delete(entity);
             await unitOfWork.CompleteAsync();
         }
-        public DbSet<Extras> ReadAll()
+        public IQueryable<Extras> ReadAll()
         {
-            return mapper.Map<DbSet<Extras>>(unitOfWork.Extras.ReadAll());
+            return mapper.Map<IEnumerable<Extras>>(unitOfWork.Extras.ReadAll()).AsQueryable();
         }
         public async  Task<IEnumerable<Extras>> ReadAllAsync()
         {

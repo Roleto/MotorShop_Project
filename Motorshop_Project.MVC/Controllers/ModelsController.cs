@@ -30,13 +30,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var modelEntity = await _logic.ReadAsync(id.Value);
-            if (modelEntity == null)
+            var model = await _logic.ReadAsync(id.Value);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(modelEntity);
+            return View(model);
         }
 
         // GET: ModelEntities/Create
@@ -70,13 +70,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var modelEntity = await _logic.ReadAsync(id.Value);
-            if (modelEntity == null)
+            var model = await _logic.ReadAsync(id.Value);
+            if (model == null)
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", modelEntity.BrandId);
-            return View(modelEntity);
+            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", model.BrandId);
+            return View(model);
         }
 
         // POST: ModelEntities/Edit/5
@@ -122,15 +122,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var modelEntity = await _logic.ReadAll()
-                .Include(m => m.Brand)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (modelEntity == null)
+            var model = await _logic.ReadAsync(id.Value);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(modelEntity);
+            return View(model);
         }
 
         // POST: ModelEntities/Delete/5
@@ -138,10 +136,10 @@ namespace Motorshop_Project.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var modelEntity = await _logic.ReadAsync(id);
-            if (modelEntity != null)
+            var model = await _logic.ReadAsync(id);
+            if (model != null)
             {
-                await _logic.DeleteAsync(modelEntity);
+                await _logic.DeleteAsync(model);
             }
             return RedirectToAction(nameof(Index));
         }

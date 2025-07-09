@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+﻿
 namespace MotorShop_Project.Logic.Interfaces
 {
     public interface ILogic<T> where T : class
@@ -12,7 +11,7 @@ namespace MotorShop_Project.Logic.Interfaces
             Task UpdateAsync(T item);
             void Delete(T item);
             Task DeleteAsync(T item);
-            DbSet<T> ReadAll();
+            IQueryable<T> ReadAll();
             Task<IEnumerable<T>> ReadAllAsync();
 
     }

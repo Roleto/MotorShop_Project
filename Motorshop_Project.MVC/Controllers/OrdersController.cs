@@ -18,8 +18,7 @@ namespace Motorshop_Project.MVC.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var ordersSet = _logic.ReadAll().Include(o => o.Brand).Include(o => o.Model);
-            return View(await ordersSet.ToListAsync());
+            return View(await _logic.ReadAllAsync());
         }
 
         // GET: Orders/Details/5
@@ -30,16 +29,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var orderEntity = await _logic.ReadAll()
-                .Include(o => o.Brand)
-                .Include(o => o.Model)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (orderEntity == null)
+            var order = await _logic.ReadAsync(id.Value);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(orderEntity);
+            return View(order);
         }
 
         // GET: Orders/Create
@@ -75,14 +71,14 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var orderEntity = await _logic.ReadAsync(id.Value);
-            if (orderEntity == null)
+            var order = await _logic.ReadAsync(id.Value);
+            if (order == null)
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", orderEntity.BrandId);
-            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", orderEntity.ModelId);
-            return View(orderEntity);
+            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", order.BrandId);
+            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", order.ModelId);
+            return View(order);
         }
 
         // POST: Orders/Edit/5
@@ -129,16 +125,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var orderEntity = await _logic.ReadAll()
-                .Include(o => o.Brand)
-                .Include(o => o.Model)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (orderEntity == null)
+            var order = await _logic.ReadAsync(id.Value);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(orderEntity);
+            return View(order);
         }
 
         // POST: Orders/Delete/5

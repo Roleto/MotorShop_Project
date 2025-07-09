@@ -75,12 +75,12 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var brandEntity = await _logic.ReadAsync(id.Value);
-            if (brandEntity == null)
+            var brand = await _logic.ReadAsync(id.Value);
+            if (brand == null)
             {
                 return NotFound();
             }
-            return View(brandEntity);
+            return View(brand);
         }
 
         // POST: Brands/Edit/5
@@ -142,13 +142,13 @@ namespace Motorshop_Project.MVC.Controllers
                 return NotFound();
             }
 
-            var brandEntity = await _logic.ReadAsync(id.Value);
-            if (brandEntity == null)
+            var brand = await _logic.ReadAsync(id.Value);
+            if (brand == null)
             {
                 return NotFound();
             }
 
-            return View(brandEntity);
+            return View(brand);
         }
 
         // POST: Brands/Delete/5

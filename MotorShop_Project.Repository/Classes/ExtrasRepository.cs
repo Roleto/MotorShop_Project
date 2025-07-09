@@ -64,7 +64,7 @@ namespace MotorShop_Project.Repository.Classes
         }
         public async Task<IEnumerable<ExtrasEntity>> ReadAllAsync()
         {
-            return await context.Set<ExtrasEntity>().ToListAsync();
+            return await context.Set<ExtrasEntity>().Include(e => e.Model).ToListAsync();
         }
     }
 }

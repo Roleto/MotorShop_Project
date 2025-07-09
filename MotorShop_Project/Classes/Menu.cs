@@ -118,7 +118,7 @@ namespace MotorShop_Project.Classes
             };
         }
 
-        private static void HandleReadAll<T>(string entityName, ILogic<T> logic)
+        private static void HandleReadAll<T>(string entityName, ILogic<T> logic) where T :class
         {
             Console.Clear();
             var items = logic.ReadAll();
