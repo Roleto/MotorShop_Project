@@ -23,6 +23,11 @@ namespace MotorShop_Project.Repository.Classes
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
+            if(item.Image != null && item.Image.Length == 0)
+            {
+                item.Image = null;
+                item.ContentType = null;
+            }
 
             context.Brands.Add(item);
         }

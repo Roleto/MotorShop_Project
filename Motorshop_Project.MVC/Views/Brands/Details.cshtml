@@ -1,6 +1,5 @@
 ﻿@model MotorShop_Project.Model.Classes.Brand
 
-
 @{
     ViewData["Title"] = "Details";
 }
@@ -24,10 +23,19 @@
             @Html.DisplayFor(model => model.Alt)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImgUrl)
+            @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImgUrl)
+            @if (Model.HasImage)
+            {
+                var base64 = Convert.ToBase64String(Model.Image);
+                var imageSrc = $"data:{Model.ContentType};base64,{base64}";
+                <img src="@imageSrc" alt="@Model.Alt" width="250" />
+            }
+            else
+            {
+                <img src="/images/placeholde_img.png" alt="place_holder" width="150" />
+            }
         </dd>
     </dl>
 </div>

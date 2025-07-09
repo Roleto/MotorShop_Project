@@ -66,6 +66,10 @@ namespace MotorShop_Project.Data.DBContext
 
             modelBuilder.Entity<ExtrasEntity>()
                 .HasIndex(e => e.Type);
+
+            modelBuilder.Entity<BrandEntity>()
+                    .Property(b => b.Image)
+                    .HasColumnType("varbinary(max)");
         }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

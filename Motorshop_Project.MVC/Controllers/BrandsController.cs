@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -13,25 +15,24 @@ using MotorShop_Project.Model.Classes;
 
 namespace Motorshop_Project.MVC.Controllers
 {
-    public class BrandController : Controller
+    public class BrandsController : Controller
     {
         private readonly IBrandLogic _logic;
         private readonly IMapper mapper;
 
-
-        public BrandController(IBrandLogic logic, IMapper mapper)
+        public BrandsController(IBrandLogic logic, IMapper mapper)
         {
             _logic = logic;
             this.mapper = mapper;
         }
 
-        // GET: BrandEntities
+        // GET: Brands
         public async Task<IActionResult> Index()
         {
             return View(await _logic.ReadAllAsync());
         }
 
-        // GET: BrandEntities/Details/5
+        // GET: Brands/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,28 +49,37 @@ namespace Motorshop_Project.MVC.Controllers
             return View(brandEntity);
         }
 
-        // GET: BrandEntities/Create
+        // GET: Brands/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: BrandEntities/Create
+        // POST: Brands/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Alt,ImgUrl")] Brand brandEntity)
+        public async Task<IActionResult> Create([Bind("Id,Name,Alt,Image,ContentType")] Brand brandEntity, IFormFile? ImageUpload)
         {
             if (ModelState.IsValid)
             {
+                if (ImageUpload != null && ImageUpload.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await ImageUpload.CopyToAsync(ms);
+                        brandEntity.Image = ms.ToArray();
+                        brandEntity.ContentType = ImageUpload.ContentType;
+                    }
+                }
                 await _logic.CreateAsync(brandEntity);
                 return RedirectToAction(nameof(Index));
             }
             return View(brandEntity);
         }
 
-        // GET: BrandEntities/Edit/5
+        // GET: Brands/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,12 +95,12 @@ namespace Motorshop_Project.MVC.Controllers
             return View(brandEntity);
         }
 
-        // POST: BrandEntities/Edit/5
+        // POST: Brands/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Alt,ImgUrl")] Brand brandEntity)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Alt,Image,ContentType")] Brand brandEntity, IFormFile? ImageUpload)
         {
             if (id != brandEntity.Id)
             {
@@ -99,6 +109,15 @@ namespace Motorshop_Project.MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                if (ImageUpload != null && ImageUpload.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await ImageUpload.CopyToAsync(ms);
+                        brandEntity.Image = ms.ToArray();
+                        brandEntity.ContentType = ImageUpload.ContentType;
+                    }
+                }
                 try
                 {
                     _logic.Update(brandEntity);
@@ -119,7 +138,7 @@ namespace Motorshop_Project.MVC.Controllers
             return View(brandEntity);
         }
 
-        // GET: Brand/Delete/5
+        // GET: Brands/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,7 +155,7 @@ namespace Motorshop_Project.MVC.Controllers
             return View(brandEntity);
         }
 
-        // POST: Brand/Delete/5
+        // POST: Brands/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Brand brandEntity)

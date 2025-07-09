@@ -159,17 +159,12 @@ namespace MotorShop_Project.Classes
             else
             {
 
-                Console.Write("Kép URL: ");
-                string img = Console.ReadLine();
-                if (string.IsNullOrEmpty(img))
-                    img = null;
-
                 Console.Write("Alt szöveg: ");
                 string alt = Console.ReadLine();
                 if (string.IsNullOrEmpty(alt))
                     alt = null;
 
-                var newBrand = new Brand(name, alt, img);
+                var newBrand = new Brand(name, alt, null);
 
                 logic.Create(newBrand);
             }
@@ -220,11 +215,7 @@ namespace MotorShop_Project.Classes
             {
 
                 brand.Name = name;
-                Console.Write("Kép URL: ");
-                string img = Console.ReadLine();
-                if (img == "")
-                    img = null;
-                brand.ImgUrl = img;
+                brand.Image = null;
 
                 Console.Write("Alt szöveg: ");
                 string alt = Console.ReadLine();

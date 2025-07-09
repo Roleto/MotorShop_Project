@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotorShop_Project.Data.DBContext;
 
@@ -11,9 +12,11 @@ using MotorShop_Project.Data.DBContext;
 namespace MotorShop_Project.Data.Migrations
 {
     [DbContext(typeof(MotorShopDbContext))]
-    partial class MotorShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250708172706_modify_brand_add_image_data")]
+    partial class modify_brand_add_image_data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +53,11 @@ namespace MotorShop_Project.Data.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ContentType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Image")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")

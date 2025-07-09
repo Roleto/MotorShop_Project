@@ -2,13 +2,13 @@
 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Brands_Index";
 }
 
-<h1>Index</h1>
+<h1>Brands Overview</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="create-link" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.Alt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImgUrl)
+                @Html.DisplayNameFor(model => model.Image)
             </th>
             <th></th>
         </tr>
@@ -35,10 +35,10 @@
                 @Html.DisplayFor(modelItem => item.Alt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImgUrl)
+                @Html.DisplayFor(modelItem => item.Image)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="Brand" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
