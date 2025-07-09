@@ -2,12 +2,6 @@
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
 using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace MotorShop_Project.Classes
 {

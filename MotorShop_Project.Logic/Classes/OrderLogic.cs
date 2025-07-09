@@ -4,12 +4,6 @@ using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
 using MotorShop_Project.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MotorShop_Project.Logic.Classes
 {

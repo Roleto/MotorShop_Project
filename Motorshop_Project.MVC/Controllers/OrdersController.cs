@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
 

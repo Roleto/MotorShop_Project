@@ -1,18 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Data.DBContext;
+using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Repository.Interface;
 using MotorShop_Project.Repository.Classes;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Logic.Classes;
-using AutoMapper;
-using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Model.Classes;
-using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
-using Spectre.Console;
-using static System.Formats.Asn1.AsnWriter;
 using MotorShop_Project.Classes;
 
 namespace MotorShop_Project

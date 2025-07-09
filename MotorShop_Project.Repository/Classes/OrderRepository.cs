@@ -2,11 +2,6 @@
 using MotorShop_Project.Data.DBContext;
 using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MotorShop_Project.Repository.Classes
 {
