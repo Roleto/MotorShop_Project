@@ -41,15 +41,15 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Alt)
-            </td>
-            <td>
                     @{
                         var imageSrc = item.GetImgSrc;
                         <img src="@(string.IsNullOrEmpty(imageSrc) ? "/images/placeholde_img.png" : imageSrc)"
                              alt="@(string.IsNullOrEmpty(imageSrc) ? "place_holder" : item.Alt)"
                              width="150" />
                     }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alt)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Data.Entities;
 
 namespace MotorShop_Project.Data.DBContext
 {
-    public class MotorShopDbContext : DbContext
+    public class MotorShopDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+
     {
-        public MotorShopDbContext(DbContextOptions<MotorShopDbContext> options)
-            : base(options)
-        {
-        }
+
+        public MotorShopDbContext(DbContextOptions<MotorShopDbContext> options): base(options) { }
 
         public DbSet<BrandEntity> Brands { get; set; }
         public DbSet<ModelEntity> Models { get; set; }
@@ -64,6 +65,15 @@ namespace MotorShop_Project.Data.DBContext
             modelBuilder.Entity<BrandEntity>()
                     .Property(b => b.Image)
                     .HasColumnType("varbinary(max)");
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+#if DEBUG
+            optionsBuilder
+                .EnableSensitiveDataLogging()
+                .LogTo(Console.WriteLine);
+#endif
         }
     }
 }

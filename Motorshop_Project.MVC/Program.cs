@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Data.DBContext;
 using MotorShop_Project.Logic.Classes;
@@ -9,7 +14,7 @@ namespace Motorshop_Project.MVC
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +25,9 @@ namespace Motorshop_Project.MVC
             builder.Services.AddDbContext<MotorShopDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            //
+            //Add Auto Mapper
             builder.Services.AddAutoMapper(typeof(Program));
-
+           
             // Add Logic Layer
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             
@@ -30,6 +35,12 @@ namespace Motorshop_Project.MVC
             builder.Services.AddScoped<IModelLogic, ModelLogic>();
             builder.Services.AddScoped<IExtrasLogic, ExtrasLogic>();
             builder.Services.AddScoped<IOrderLogic, OrderLogic>();
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+             .AddRoles<IdentityRole>()
+             .AddEntityFrameworkStores<MotorShopDbContext>();
 
 
             var app = builder.Build();
@@ -54,8 +65,25 @@ namespace Motorshop_Project.MVC
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapRazorPages();
-
+            using (var scope = app.Services.CreateScope())
+            {
+                await SeedRoles(scope.ServiceProvider);
+            }
             app.Run();
+        }
+
+        public static async Task SeedRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            string[] roles = { "Admin", "User" };
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
         }
     }
 }
