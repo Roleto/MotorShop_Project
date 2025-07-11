@@ -38,6 +38,10 @@ namespace Motorshop_Project.MVC
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
             })
              .AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<MotorShopDbContext>();

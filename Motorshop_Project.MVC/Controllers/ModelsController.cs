@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Logic.Interfaces;
@@ -39,7 +40,9 @@ namespace Motorshop_Project.MVC.Controllers
             return View(model);
         }
 
+
         // GET: ModelEntities/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name");
@@ -51,6 +54,7 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,BrandId,Name,Type,Price")] BrandModel model)
         {
             if (ModelState.IsValid)
@@ -63,6 +67,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: ModelEntities/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,6 +89,7 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,BrandId,Name,Type,Price")] BrandModel model)
         {
             if (id != model.Id)
@@ -115,6 +121,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: ModelEntities/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,6 +141,7 @@ namespace Motorshop_Project.MVC.Controllers
         // POST: ModelEntities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var model = await _logic.ReadAsync(id);

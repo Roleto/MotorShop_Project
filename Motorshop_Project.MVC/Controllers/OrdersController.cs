@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Logic.Interfaces;
@@ -6,6 +7,7 @@ using MotorShop_Project.Model.Classes;
 
 namespace Motorshop_Project.MVC.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IOrderLogic _logic;
@@ -16,12 +18,14 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: Orders
+
         public async Task<IActionResult> Index()
         {
             return View(await _logic.ReadAllAsync());
         }
 
         // GET: Orders/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -64,6 +68,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +91,7 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,BrandId,ModelId,OrderTime,HasExtras")] Order order)
         {
             if (id != order.Id)

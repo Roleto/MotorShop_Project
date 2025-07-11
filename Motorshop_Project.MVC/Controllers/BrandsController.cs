@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
@@ -38,6 +39,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: Brands/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -48,6 +50,8 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Create([Bind("Id,Name,Alt,Image,ContentType")] Brand brand, IFormFile? ImageUpload)
         {
             if (ModelState.IsValid)
@@ -68,6 +72,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: Brands/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,6 +93,7 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Alt,Image,ContentType")] Brand brand, IFormFile? ImageUpload, bool wantNewImage)
         {
             if (id != brand.Id)
@@ -135,6 +141,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: Brands/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -152,6 +159,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // POST: Brands/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Brand brandEntity)

@@ -4,7 +4,7 @@ namespace MotorShop_Project.Model.Classes
 {
     public class BrandModel
     {
-        [Display(Name = "Id")]
+        [Display(Name = "Model Id")]
         public int Id { get; set; }
         [Display(Name = "Brand Id")]
         public int BrandId { get; set; }

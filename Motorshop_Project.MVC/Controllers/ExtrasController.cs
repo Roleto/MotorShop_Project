@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MotorShop_Project.Logic.Interfaces;
@@ -39,6 +40,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: Extras/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name");
@@ -50,6 +52,7 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,ModelId,Name,Type,Price,Description")] Extras extra)
         {
             if (ModelState.IsValid)
@@ -62,6 +65,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: Extras/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,6 +87,7 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ModelId,Name,Type,Price,Description")] Extras extra)
         {
             if (id != extra.Id)
@@ -114,6 +119,7 @@ namespace Motorshop_Project.MVC.Controllers
         }
 
         // GET: Extras/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,6 +139,7 @@ namespace Motorshop_Project.MVC.Controllers
         // POST: Extras/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var extra = await _logic.ReadAsync(id);
