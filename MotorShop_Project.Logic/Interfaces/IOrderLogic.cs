@@ -1,4 +1,5 @@
 ﻿using MotorShop_Project.Model.Classes;
+using System.Collections;
 
 namespace MotorShop_Project.Logic.Interfaces
 {
@@ -6,6 +7,8 @@ namespace MotorShop_Project.Logic.Interfaces
     {
         IEnumerable<Brand> GetBrands { get; }
         IEnumerable<BrandModel> GetModels { get; }
+        IEnumerable<Extras> GetetExtras { get; }
+
         void nonCrud1();
         void nonCrud2();
         void nonCrud3();

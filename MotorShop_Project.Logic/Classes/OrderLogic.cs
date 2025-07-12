@@ -4,6 +4,7 @@ using MotorShop_Project.Data.Entities;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
 using MotorShop_Project.Repository.Interface;
+using System.Collections;
 
 namespace MotorShop_Project.Logic.Classes
 {
@@ -12,9 +13,10 @@ namespace MotorShop_Project.Logic.Classes
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public IEnumerable<Brand> GetBrands => mapper.Map<IQueryable<Brand>>(unitOfWork.Brands.ReadAll());
-        public IEnumerable<BrandModel> GetModels => mapper.Map<IQueryable<BrandModel>>(unitOfWork.Brands.ReadAll());
+        public IEnumerable<Brand> GetBrands => mapper.Map<IEnumerable<Brand>>(unitOfWork.Brands.ReadAll());
+        public IEnumerable<BrandModel> GetModels => mapper.Map<IEnumerable<BrandModel>>(unitOfWork.Models.ReadAll());
 
+        public IEnumerable<Extras> GetetExtras => mapper.Map<IEnumerable<Extras>>(unitOfWork.Extras.ReadAll());
 
         public OrderLogic(IUnitOfWork unitOfWork, IMapper mapper)
         {
