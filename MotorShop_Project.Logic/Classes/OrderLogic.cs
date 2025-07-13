@@ -18,6 +18,8 @@ namespace MotorShop_Project.Logic.Classes
 
         public IEnumerable<Extras> GetExtras => mapper.Map<IEnumerable<Extras>>(unitOfWork.Extras.ReadAll());
 
+        public IEnumerable<Extras> GetOrdersExtra => throw new NotImplementedException();
+
         public OrderLogic(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;

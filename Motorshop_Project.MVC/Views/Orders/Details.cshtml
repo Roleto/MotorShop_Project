@@ -53,10 +53,15 @@
             @Html.DisplayFor(model => model.OrderTime)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasExtras)
+            @Html.DisplayNameFor(model => model.Extras)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasExtras)
+            <ul class="no-bullets">
+                @foreach (var extra in Model.Extras)
+                {
+                    <li>@extra.Name (@extra.Type)</li>
+                }
+            </ul>
         </dd>
     </dl>
 </div>

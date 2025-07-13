@@ -26,6 +26,7 @@ namespace MotorShop_Project.Model.Classes
         [Display(Name = "Has Extras")]
         public bool HasExtras { get; set; }
 
+        [Display(Name = "Extras")]
         public ICollection<Extras> Extras { get; set; } = new List<Extras>();
 
         public List<int> SelectedExtraIds { get; set; } = new List<int>();

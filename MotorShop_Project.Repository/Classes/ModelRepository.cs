@@ -57,9 +57,9 @@ namespace MotorShop_Project.Repository.Classes
         }
 
 
-        public DbSet<ModelEntity> ReadAll()
+        public IEnumerable<ModelEntity> ReadAll()
         {
-            return context.Set<ModelEntity>();
+            return context.Set<ModelEntity>().Include(m => m.Brand);
         }
         public async Task<IEnumerable<ModelEntity>> ReadAllAsync()
         {

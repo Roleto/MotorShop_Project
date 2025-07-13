@@ -10,7 +10,7 @@ namespace MotorShop_Project.Repository.Interface
         Task<T> ReadAsync(int id);
         void Update(T item);
         void Delete(T item);
-        DbSet<T> ReadAll();
+        IEnumerable<T> ReadAll();
         Task<IEnumerable<T>> ReadAllAsync();
 
         Task<T> ReadNoTracking(int id);

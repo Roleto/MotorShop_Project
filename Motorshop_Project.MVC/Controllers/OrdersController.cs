@@ -39,6 +39,7 @@ namespace Motorshop_Project.MVC.Controllers
             {
                 return NotFound();
             }
+            ViewData["ExtraId"] = new MultiSelectList(_logic.GetExtras.Where(e => e.Id == id.Value), "Id", "Name");
 
             return View(order);
         }

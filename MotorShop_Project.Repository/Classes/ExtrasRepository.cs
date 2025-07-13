@@ -58,9 +58,9 @@ namespace MotorShop_Project.Repository.Classes
             context.Extras.Remove(item);
         }
 
-        public DbSet<ExtrasEntity> ReadAll()
+        public IEnumerable<ExtrasEntity> ReadAll()
         {
-            return context.Set<ExtrasEntity>();
+            return context.Set<ExtrasEntity>().Include(e => e.Model);
         }
         public async Task<IEnumerable<ExtrasEntity>> ReadAllAsync()
         {

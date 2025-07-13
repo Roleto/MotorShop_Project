@@ -118,3 +118,9 @@ a.delete-link,
     border-radius: 4px;
     font-weight: 600;
 }
+
+.no-bullets {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}

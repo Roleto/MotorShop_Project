@@ -60,14 +60,14 @@ namespace MotorShop_Project.Repository.Classes
             context.Orders.Remove(item);
         }
 
-        public DbSet<OrderEntity> ReadAll()
+        public IEnumerable<OrderEntity> ReadAll()
         {
-            return context.Set<OrderEntity>();
+            return context.Set<OrderEntity>().Include(o => o.Brand).Include(o => o.Model).Include(o => o.Extras);
         }
 
         public async Task<IEnumerable<OrderEntity>> ReadAllAsync()
         {
-            return await context.Set<OrderEntity>().Include(o => o.Brand).Include(o => o.Model).ToListAsync();
+            return await context.Set<OrderEntity>().Include(o => o.Brand).Include(o => o.Model).Include(o => o.Extras).ToListAsync();
         }
 
         public async Task<OrderEntity> ReadNoTracking(int id)
@@ -77,12 +77,8 @@ namespace MotorShop_Project.Repository.Classes
 
         public async Task<IEnumerable<OrderEntity>> ReadAllNoTracking()
         {
-            return await context.Set<OrderEntity>().AsNoTracking().Include(o => o.Brand).Include(o => o.Model).ToListAsync();
+            return await context.Set<OrderEntity>().AsNoTracking().Include(o => o.Brand).Include(o => o.Model).Include(o => o.Extras).ToListAsync();
         }
-
-        //public async Task<OrderEntity> ReadAsNoTrackingAsync(int id)
-        //{
-        //}
 
     }
 }
