@@ -7,10 +7,11 @@ namespace MotorShop_Project.Logic.Interfaces
     {
         IEnumerable<Brand> GetBrands { get; }
         IEnumerable<BrandModel> GetModels { get; }
-        IEnumerable<Extras> GetetExtras { get; }
+        IEnumerable<Extras> GetExtras { get; }
 
         void nonCrud1();
         void nonCrud2();
         void nonCrud3();
+        Task<Order> ReadAsNoTrackingAsync(int id);
     }
 }

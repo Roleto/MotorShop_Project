@@ -34,7 +34,7 @@ namespace MotorShop_Project.Model.Classes
         {
             get
             {
-                if (HasImage)
+                if (Image != null && Image.Length != 0)
                 {
                     var base64 = Convert.ToBase64String(Image);
                     return $"data:{ContentType};base64,{base64}";

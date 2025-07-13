@@ -65,5 +65,15 @@ namespace MotorShop_Project.Repository.Classes
         {
             return await context.Set<ModelEntity>().Include(m => m.Brand).ToListAsync();
         }
+
+        public async Task<ModelEntity> ReadNoTracking(int id)
+        {
+            return (await ReadAllNoTracking()).FirstOrDefault(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<ModelEntity>> ReadAllNoTracking()
+        {
+            return await context.Set<ModelEntity>().AsNoTracking().Include(m => m.Brand).ToListAsync();
+        }
     }
 }

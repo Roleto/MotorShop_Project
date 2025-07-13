@@ -1,4 +1,5 @@
-﻿@model MotorShop_Project.Model.Classes.Order
+﻿@model Motorshop_Project.MVC.ViewModels.OrderVm
+
 
 
 @{
@@ -12,19 +13,33 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="BrandId" class="control-label"></label>
-                <select asp-for="BrandId" class ="form-control" asp-items="ViewBag.BrandId"></select>
+                <label asp-for="Order.BrandId" class="control-label"></label>
+                <select asp-for="Order.BrandId" class="form-control" asp-items="ViewBag.BrandId" id="brandSelect"></select>
+            </div>
+            <div class="form-group" id="modelsContainer">
+                <label asp-for="Order.ModelId" class="control-label"></label>
+                <select asp-for="Order.ModelId" class="form-control" asp-items="ViewBag.ModelId" id="modelSelect"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ModelId" class="control-label"></label>
-                <select asp-for="ModelId" class ="form-control" asp-items="ViewBag.ModelId"></select>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="HasExtras" /> @Html.DisplayNameFor(model => model.HasExtras)
-                </label>
+                <label>Extras</label>
+                <div id="extrasContainer">
+                    @foreach (var extra in (IEnumerable<SelectListItem>)ViewBag.ExtraId)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox"
+                                   name="SelectedExtraIds"
+                                   value="@extra.Value"
+                                   class="form-check-input"
+                                   id="extra_@extra.Value"
+                            @(extra.Selected ? "checked" : "") />
+                            <label class="form-check-label" for="extra_@extra.Value">
+                                @extra.Text
+                            </label>
+                        </div>
+                    }
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -39,4 +54,47 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('modelSelect').addEventListener('change', function() {
+            const modelId = this.value;
+            fetch(`/Orders/GetExtrasByModel?modelId=${modelId}`)
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('extrasContainer');
+                    container.innerHTML = '';
+                    data.forEach(extra => {
+                        const div = document.createElement('div');
+                        div.className = 'form-check';
+                        div.innerHTML = `
+                            <input type="checkbox" name="SelectedExtraIds" value="${extra.id}" class="form-check-input" id="extra_${extra.id}" />
+                            <label class="form-check-label" for="extra_${extra.id}">${extra.name}</label>
+                        `;
+                        container.appendChild(div);
+                    });
+                });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#brandSelect').change(function () {
+                var brandId = $(this).val();
+                var modelSelect = $('#modelSelect');
+                modelSelect.empty();
+
+                if (brandId) {
+                    $.getJSON('/Orders/GetModelsByBrand', { brandId: brandId }, function (data) {
+                        modelSelect.append($('<option>').text('-- Select Model --').attr('value', ''));
+                        $.each(data, function (i, item) {
+                            modelSelect.append($('<option>').attr('value', item.id).text(item.name));
+                        });
+                    });
+                } else {
+                    modelSelect.append($('<option>').text('-- Select Model --').attr('value', ''));
+                }
+            });
+        });
+    </script>
 }
+<div class="form-group" id="modelsContainer">
+    
+</div>

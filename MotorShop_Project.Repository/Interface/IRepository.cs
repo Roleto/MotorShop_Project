@@ -13,7 +13,7 @@ namespace MotorShop_Project.Repository.Interface
         DbSet<T> ReadAll();
         Task<IEnumerable<T>> ReadAllAsync();
 
-        //T ReadNoTracking(int id);
-        //IEnumerable<T> ReadAllNoTracking();
+        Task<T> ReadNoTracking(int id);
+        Task<IEnumerable<T>> ReadAllNoTracking();
     }
 }

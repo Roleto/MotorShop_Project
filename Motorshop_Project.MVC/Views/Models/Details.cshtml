@@ -27,7 +27,7 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         @if (User.IsInRole("Admin"))
-        {
+        { //Brand Model delete-ben van crt + c-z
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Brand.Id)
             </dt>

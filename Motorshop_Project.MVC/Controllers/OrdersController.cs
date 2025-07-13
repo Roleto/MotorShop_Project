@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Motorshop_Project.MVC.ViewModels;
 using MotorShop_Project.Logic.Interfaces;
 using MotorShop_Project.Model.Classes;
 
@@ -45,8 +46,12 @@ namespace Motorshop_Project.MVC.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name");
-            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name");
+            var brands = _logic.GetBrands;
+            var models = _logic.GetModels;
+            //ViewData["ExtraId"] = new MultiSelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text");
+            ViewData["BrandId"] = new SelectList(brands, "Id", "Name");
+            ViewData["ModelId"] = new SelectList(models.Where(m => m.BrandId == brands.First().Id), "Id", "Name");
+            ViewData["ExtraId"] = new MultiSelectList(_logic.GetExtras.Where(e => e.ModelId == models.First().Id), "Id", "Name");
             return View();
         }
 
@@ -55,16 +60,23 @@ namespace Motorshop_Project.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BrandId,ModelId,OrderTime,HasExtras")] Order order)
+        //public async Task<IActionResult> Create([Bind("Id,BrandId,ModelId,OrderTime,HasExtras")] OrderVm orderVm)
+        public async Task<IActionResult> Create([Bind("Order,SelectedExtraIds")] OrderVm orderVm)
         {
             if (ModelState.IsValid)
             {
-                await _logic.CreateAsync(order);
+                orderVm.Order.SelectedExtraIds = orderVm.SelectedExtraIds;
+                if (orderVm.SelectedExtraIds.Count > 0)
+                    orderVm.Order.HasExtras = true;
+
+                await _logic.CreateAsync(orderVm.Order);
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", order.BrandId);
-            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", order.ModelId);
-            return View(order);
+            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", orderVm.Order.BrandId);
+            ViewData["ModelId"] = new SelectList(_logic.GetModels.Where(m => m.BrandId == orderVm.Order.BrandId), "Id", "Name", orderVm.Order.ModelId);
+            ViewData["ExtraId"] = new MultiSelectList( _logic.GetExtras.Where(e => e.ModelId == orderVm.Order.ModelId), "Id", "Name", orderVm.SelectedExtraIds );
+            return View(orderVm);
         }
 
         // GET: Orders/Edit/5
@@ -81,6 +93,8 @@ namespace Motorshop_Project.MVC.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["ExtraId"] = new SelectList( _logic.GetExtras, "Id", "Name");
             ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", order.BrandId);
             ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", order.ModelId);
             return View(order);
@@ -145,7 +159,8 @@ namespace Motorshop_Project.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var orderEntity = await _logic.ReadAsync(id);
+            //var orderEntity = await _logic.ReadAsync(id);
+            var orderEntity = await _logic.ReadAsNoTrackingAsync(id);
             if (orderEntity != null)
             {
                 await _logic.DeleteAsync(orderEntity);
@@ -153,7 +168,27 @@ namespace Motorshop_Project.MVC.Controllers
             
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public IActionResult GetExtrasByModel(int modelId)
+        {
+            var extras = _logic.GetExtras
+                               .Where(e => e.ModelId == modelId)
+                               .Select(e => new { e.Id, e.Name })
+                               .ToList();
 
+            return Json(extras);
+        }
+
+        [HttpGet]
+        public IActionResult GetModelsBybrand(int brandId)
+        {
+            var extras = _logic.GetModels
+                               .Where(e => e.BrandId == brandId)
+                               .Select(e => new { e.Id, e.Name })
+                               .ToList();
+
+            return Json(extras);
+        }
         private bool OrderEntityExists(int id)
         {
             return _logic.ReadAll().Any(e => e.Id == id);

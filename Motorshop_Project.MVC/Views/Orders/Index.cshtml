@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MotorShop_Project.Model.Classes.Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Orders_Index";
 }
 
-<h1>Index</h1>
+<h1>Orders Overview</h1>
 
 <p>
     <a class="create-link" asp-action="Create">Create New</a>
@@ -16,6 +16,9 @@
             {
                 <th>
                     @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserId)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Brand.Id)
@@ -50,6 +53,9 @@
                 {
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Brand.Id)

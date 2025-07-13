@@ -77,5 +77,14 @@ namespace MotorShop_Project.Repository.Classes
         //{
         //    return context.Set<BrandEntity>().AsNoTracking();
         //}
+        public async Task<BrandEntity> ReadNoTracking(int id)
+        {
+            return (await ReadAllNoTracking()).FirstOrDefault(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<BrandEntity>> ReadAllNoTracking()
+        {
+            return await context.Set<BrandEntity>().AsNoTracking().ToListAsync();
+        }
     }
 }

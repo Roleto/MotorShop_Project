@@ -16,7 +16,7 @@ namespace MotorShop_Project.Logic.Classes
         public IEnumerable<Brand> GetBrands => mapper.Map<IEnumerable<Brand>>(unitOfWork.Brands.ReadAll());
         public IEnumerable<BrandModel> GetModels => mapper.Map<IEnumerable<BrandModel>>(unitOfWork.Models.ReadAll());
 
-        public IEnumerable<Extras> GetetExtras => mapper.Map<IEnumerable<Extras>>(unitOfWork.Extras.ReadAll());
+        public IEnumerable<Extras> GetExtras => mapper.Map<IEnumerable<Extras>>(unitOfWork.Extras.ReadAll());
 
         public OrderLogic(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -33,6 +33,11 @@ namespace MotorShop_Project.Logic.Classes
         public async Task CreateAsync(Order item)
         {
             var entity = mapper.Map<OrderEntity>(item);
+            var extraEntities = unitOfWork.Extras.ReadAll()
+                                    .Where(e => item.SelectedExtraIds.Contains(e.Id))
+                                    .ToList();
+
+            entity.Extras = extraEntities;
             await unitOfWork.Orders.CreateAsync(entity);
             await unitOfWork.CompleteAsync();
         }
@@ -100,5 +105,9 @@ namespace MotorShop_Project.Logic.Classes
             throw new NotImplementedException();
         }
 
+        public async Task<Order> ReadAsNoTrackingAsync(int id)
+        {
+            return mapper.Map<Order>(await unitOfWork.Orders.ReadNoTracking(id));
+        }
     }
 }

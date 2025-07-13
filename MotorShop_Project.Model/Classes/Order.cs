@@ -10,12 +10,15 @@ namespace MotorShop_Project.Model.Classes
         [Display(Name = "Brand Id")]
         public int BrandId { get; set; }
         [Display(Name = "Brand")]
-        public Brand Brand { get; set; } = null!;
+        public Brand? Brand { get; set; } = null;
 
         [Display(Name = "Model Id")]
         public int ModelId { get; set; }
         [Display(Name = "Model")]
-        public BrandModel Model { get; set; } = null!;
+        public BrandModel? Model { get; set; } = null;
+
+        [Display(Name = "User Id")]
+        public string UserId { get; set; } = "";
 
         [Display(Name = "Order Time")]
         public DateTime OrderTime { get; set; }
@@ -25,9 +28,11 @@ namespace MotorShop_Project.Model.Classes
 
         public ICollection<Extras> Extras { get; set; } = new List<Extras>();
 
+        public List<int> SelectedExtraIds { get; set; } = new List<int>();
+
         public override string ToString()
         {
-            return $"Order: Id={Id}, BrandId={BrandId}, ModelId={ModelId}, OrderTime={OrderTime}, HasExtras={HasExtras}, Extras={Extras}";
+            return $"Order: Id={Id}, BrandId={BrandId}, ModelId={ModelId}, OrderTime={OrderTime}, HasExtras={HasExtras}";
         }
     }
 
