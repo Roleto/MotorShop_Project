@@ -54,7 +54,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+     <script>
         document.getElementById('modelSelect').addEventListener('change', function() {
             const modelId = this.value;
             fetch(`/Orders/GetExtrasByModel?modelId=${modelId}`)
@@ -93,8 +93,5 @@
                 }
             });
         });
-    </script>
+    </script> 
 }
-<div class="form-group" id="modelsContainer">
-    
-</div>

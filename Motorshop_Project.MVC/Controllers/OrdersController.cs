@@ -94,11 +94,19 @@ namespace Motorshop_Project.MVC.Controllers
             {
                 return NotFound();
             }
+            var allExtras = _logic.GetExtras.Where(e => e.ModelId == order.ModelId);
+            var orderVm= new OrderVm(order, order.Extras.Select(x => x.Id).ToList());
 
-            ViewData["ExtraId"] = new SelectList( _logic.GetExtras, "Id", "Name");
-            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name", order.BrandId);
-            ViewData["ModelId"] = new SelectList(_logic.GetModels, "Id", "Name", order.ModelId);
-            return View(order);
+            ViewData["ExtraId"] = allExtras
+                .Select(extra => new SelectListItem
+                {
+                    Text = extra.Name,
+                    Value = extra.Id.ToString(),
+                    Selected = orderVm.SelectedExtraIds.Contains(extra.Id)
+                }).ToList();
+            ViewData["BrandId"] = new SelectList(_logic.GetBrands, "Id", "Name");
+            ViewData["ModelId"] = new SelectList(_logic.GetModels.Where(m => m.BrandId == order.BrandId), "Id", "Name");
+            return View(orderVm);
         }
 
         // POST: Orders/Edit/5
